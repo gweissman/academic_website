@@ -3,25 +3,20 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/talk/example/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2019-04-24T12:30:51-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/</loc>
-    <lastmod>2019-04-24T12:30:51-04:00</lastmod>
+    <lastmod>2019-04-24T12:32:15-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2019-04-24T12:32:15-04:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -37,38 +32,14 @@
   </url>
   
   <url>
-    <loc>/publication_types/3/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/publication/preprint/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/authors/</loc>
     <lastmod>2019-04-24T12:20:09-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/publication_types/</loc>
+    <loc>/publication/journal-article/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/source-themes/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -118,7 +89,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-04-24T12:30:51-04:00</lastmod>
+    <lastmod>2019-04-24T12:32:15-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -144,13 +115,13 @@
   
   <url>
     <loc>/categories/babelgraph/</loc>
-    <lastmod>2019-04-24T12:30:51-04:00</lastmod>
+    <lastmod>2019-04-24T12:32:15-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/blog/</loc>
-    <lastmod>2019-04-24T12:30:51-04:00</lastmod>
+    <lastmod>2019-04-24T12:32:15-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -174,7 +145,7 @@
   
   <url>
     <loc>/post/r-can-write-r-code-too/</loc>
-    <lastmod>2016-06-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-24T12:32:15-04:00</lastmod>
   </url>
   
   <url>
@@ -185,34 +156,6 @@
   <url>
     <loc>/categories/rcpp/</loc>
     <lastmod>2019-04-24T12:30:51-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/publication_types/2/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/publication/journal-article/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/publication_types/1/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/publication/conference-paper/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/authors/robert-ford/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -232,24 +175,18 @@
   </url>
   
   <url>
+    <loc>/publication_types/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/publication/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/talk/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/slides/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+    <loc>/tags/</loc>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/slides/example/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
   </url>
   
 </urlset>

@@ -1,33 +1,17 @@
 ---
-abstract: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus
-  ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed
-  ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis
-  sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida
-  egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id
-  dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus.
-  Vestibulum sit amet erat at nulla eleifend gravida.
+abstract: Hierarchical condition categories (HCCs) are groups of diagnostic codes that are used to adjust federal payments to insurers and health systems based on differences in expected spending. Risk models built on HCCs improve on previous adjustment strategies that used demographic characteristics but did not include clinical diagnoses. Thus, accurate coding by clinicians of inpatient and outpatient encounters ensures capitated payments and reimbursements that are commensurate with predicted expenditures. Pulmonary diseases and various forms of critical illness play a significant role in this risk adjustment process both through their associated HCC codes and through interactions with other risk categories representing cardiac and psychiatric diseases. Ongoing uncertainty in federal health policy ensures a changing role for HCCs and risk-adjusted reimbursements across a variety of payment models and federal programs.
 authors:
 - admin
-date: "2015-09-01T00:00:00-04:00"
-doi: ""
+date: "2019-04-01T00:00:00-04:00"
+doi: "https://doi.org/10.1016/j.chest.2018.12.013"
 featured: false
-image:
-  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/jdD8gXaTZsc)'
-  focal_point: ""
 projects: []
-publication: '*Journal of Source Themes, 1*(1)'
-publication_short: ""
-publication_types:
-- "2"
-slides: example
-summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus
-  ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.
-tags:
-- Source Themes
-title: An example journal article
+publication: '*CHEST*'
+summary: Pulmonary diseases and various forms of critical illness play a significant role in this risk adjustment process both through their associated HCC codes and through interactions with other risk categories representing cardiac and psychiatric diseases.
+title: Hierarchical condition categories for pulmonary diseases
 url_code: ""
 url_dataset: ""
-url_pdf: http://arxiv.org/pdf/1512.04133v1
+url_pdf: https://linkinghub.elsevier.com/retrieve/pii/S0012369219300042
 url_poster: ""
 url_project: ""
 url_slides: ""
@@ -35,6 +19,8 @@ url_source: ""
 url_video: ""
 ---
 
+<!---
 {{% alert note %}}
 Supplementary notes can be added here, including [code and math](https://sourcethemes.com/academic/docs/writing-markdown-latex/).
 {{% /alert %}}
+-->

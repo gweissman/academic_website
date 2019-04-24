@@ -6,36 +6,18 @@
     <description>Recent content in admin on Gary Weissman, MD, MSHP</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Apr 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 01 Apr 2019 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="/authors/admin/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>An example preprint / working paper</title>
-      <link>/publication/preprint/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 -0400</pubDate>
-      
-      <guid>/publication/preprint/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.</description>
-    </item>
-    
-    <item>
-      <title>An example journal article</title>
+      <title>Hierarchical condition categories for pulmonary diseases</title>
       <link>/publication/journal-article/</link>
-      <pubDate>Tue, 01 Sep 2015 00:00:00 -0400</pubDate>
+      <pubDate>Mon, 01 Apr 2019 00:00:00 -0400</pubDate>
       
       <guid>/publication/journal-article/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.</description>
-    </item>
-    
-    <item>
-      <title>An example conference paper</title>
-      <link>/publication/conference-paper/</link>
-      <pubDate>Mon, 01 Jul 2013 00:00:00 -0400</pubDate>
-      
-      <guid>/publication/conference-paper/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.</description>
+      <description>Pulmonary diseases and various forms of critical illness play a significant role in this risk adjustment process both through their associated HCC codes and through interactions with other risk categories representing cardiac and psychiatric diseases.</description>
     </item>
     
     <item>
