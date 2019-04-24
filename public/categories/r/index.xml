@@ -42,6 +42,18 @@ Case Mr. Jones spends all his time at a coffee shop.</description>
     </item>
     
     <item>
+      <title>R can write R code, too</title>
+      <link>/post/r-can-write-r-code-too/</link>
+      <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-can-write-r-code-too/</guid>
+      <description>Here&amp;rsquo;s the blog post originally posted on babelgraph.org on April 14, 2012.
+In a recent blog post by CMastication, a little meme puzzle is presented with the introduction that a preschooler could solve it in 5-10 minutes, a programmer in an hour. I took the bait.
+The original problem goes like this:
+8809=6 7111=0 2172=0 6666=4 1111=0 3213=0 7662=2 9313=1 0000=4 2222=0 3333=0 5555=0 8193=3 8096=5 7777=0 9999=4 7756=1 6855=3 9881=5 5531=0 2581=?</description>
+    </item>
+    
+    <item>
       <title>Rcpp is smoking fast for agent based models in data frames</title>
       <link>/post/rcpp-is-smoking-fast-for-agent-based-models-in-data-frames/</link>
       <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
