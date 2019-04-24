@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gary Weissman, MD, MSHP</title>
+    <link>/</link>
+    <description>Recent content on Gary Weissman, MD, MSHP</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 01 Jun 2030 13:00:00 -0400</lastBuildDate>
+    
+	    <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Example Talk</title>
+      <link>/talk/example/</link>
+      <pubDate>Sat, 01 Jun 2030 13:00:00 -0400</pubDate>
+      
+      <guid>/talk/example/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Click on the &lt;strong&gt;Slides&lt;/strong&gt; button above to view the built-in slides feature.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Slides can be added in a few ways:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Create&lt;/strong&gt; slides using Academic&amp;rsquo;s &lt;a href=&#34;https://sourcethemes.com/academic/docs/managing-content/#create-slides&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;Slides&lt;/em&gt;&lt;/a&gt; feature and link using &lt;code&gt;slides&lt;/code&gt; parameter in the front matter of the talk file&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Upload&lt;/strong&gt; an existing slide deck to &lt;code&gt;static/&lt;/code&gt; and link using &lt;code&gt;url_slides&lt;/code&gt; parameter in the front matter of the talk file&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Embed&lt;/strong&gt; your slides (e.g. Google Slides) or presentation video on this page using &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Further talk details can easily be added to this page using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Evaluating the equivalence of different formulations of the scaled Brier score</title>
+      <link>/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</link>
+      <pubDate>Tue, 23 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</guid>
+      <description>
+
+
+&lt;div id=&#34;background&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;The Brier Score is a composite measure of discrimination and calibration for a prediction model. The Brier Score is defined as&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+BS = \frac{1}{N} \sum (y_i - \hat y_i)^2,
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; is the number of observations, &lt;span class=&#34;math inline&#34;&gt;\(y_i\)&lt;/span&gt; is the observed outcome, either 0 or 1, and &lt;span class=&#34;math inline&#34;&gt;\(\hat y_i\)&lt;/span&gt; is the predicted probability for the &lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt;th observation. Let’s create an R function calculate the Brier Score:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;brier_score &amp;lt;- function(obs, pred) {
+  mean((obs - pred)^2)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The scaled Brier Score accounts for the event rate and provides an immediate comparison to an uninformative model that is equivalent to “just guess the event rate.” An intuitive way to define the scaled Brier Score (also called the “Brier skill score”) is&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+BS_{scaled} = 1 - \frac{BS}{BS_{max}},
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;where &lt;span class=&#34;math inline&#34;&gt;\(BS_{max} = \frac{1}{N} \sum (y_i - \bar y_i)^2\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\bar y_i\)&lt;/span&gt; is the event rate among the observed outcome.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;my-confusion&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;My confusion&lt;/h2&gt;
+&lt;p&gt;This formulation of the scaled Brier Score makes intuitive sense to me and is how I go about calculating it in practice. However, two other distinct formulations have been proposed for calculating &lt;span class=&#34;math inline&#34;&gt;\(BS_{max}\)&lt;/span&gt; that — at least to the limits of my algebraic skills – differ. Thus, here I proposed a numeric investigation of these different definitions to see if they are indeed equivalent.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;definition-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Definition 1&lt;/h2&gt;
+&lt;p&gt;This is the intuitive definition to which I am accustomed, and is made explicit here: &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/29713202&#34; class=&#34;uri&#34;&gt;https://www.ncbi.nlm.nih.gov/pubmed/29713202&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+BS_{scaled} = 1 - \frac{\frac{1}{N} \sum (y_i - \hat y_i)^2}{\frac{1}{N} \sum (y_i - \bar y_i)^2}.
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Let’s create an R function to calculate this value.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scaled_brier_score_1 &amp;lt;- function(obs, pred) {
+  1 - (brier_score(obs, pred) / brier_score(obs, mean(obs)))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;definition-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Definition 2&lt;/h2&gt;
+&lt;p&gt;A second formulation of the scaled Brier Score is defined with a slightly different definition of &lt;span class=&#34;math inline&#34;&gt;\(BS_{max}\)&lt;/span&gt;, which is in this case described in &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/20010215&#34; class=&#34;uri&#34;&gt;https://www.ncbi.nlm.nih.gov/pubmed/20010215&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+BS_{max} = \hat p \times (1 - \hat p).
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Let’s create an R function to calculate this measure.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scaled_brier_score_2 &amp;lt;- function(obs, pred) {
+  1 - (brier_score(obs, pred) / (mean(obs) * (1 - mean(obs))))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;definition-3&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Definition 3&lt;/h2&gt;
+&lt;p&gt;A third formulation of the scaled Brier Score is defined with a slightly different definition of &lt;span class=&#34;math inline&#34;&gt;\(BS_{max}\)&lt;/span&gt;, which is in this case described in &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/pubmed/22961910&#34; class=&#34;uri&#34;&gt;https://www.ncbi.nlm.nih.gov/pubmed/22961910&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+BS_{max} = \hat p \times (1 - \hat p)^2 + (1 - \hat p) \times \hat p^2.
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Let’s create an R function to calculate this measure.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scaled_brier_score_3 &amp;lt;- function(obs, pred) {
+  1 - (brier_score(obs, pred) / (mean(obs) * (1 - mean(obs))^2 + (1 - mean(obs)) * mean(obs)^2))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;build-a-model&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Build a model&lt;/h2&gt;
+&lt;p&gt;Let’s build a sample model based on the UCI abalone data (&lt;a href=&#34;https://archive.ics.uci.edu/ml/datasets/Abalone&#34; class=&#34;uri&#34;&gt;https://archive.ics.uci.edu/ml/datasets/Abalone&lt;/a&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get data
+df &amp;lt;- read.csv(&amp;#39;https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&amp;#39;)
+names(df) &amp;lt;- c(&amp;#39;sex&amp;#39;, &amp;#39;length&amp;#39;, &amp;#39;diameter&amp;#39;, &amp;#39;height&amp;#39;, &amp;#39;weight_whole&amp;#39;, 
+               &amp;#39;weight_shucked&amp;#39;, &amp;#39;weight_viscera&amp;#39;, &amp;#39;weight_shell&amp;#39;, &amp;#39;rings&amp;#39;)
+# inspect data
+knitr::kable(head(df))&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;sex&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;length&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;diameter&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;height&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;weight_whole&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;weight_shucked&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;weight_viscera&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;weight_shell&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;rings&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;M&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.350&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.265&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.090&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2255&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0995&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0485&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.070&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;F&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.530&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.420&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.135&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.6770&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2565&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1415&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.210&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;M&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.440&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.365&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.125&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5160&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2155&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1140&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.155&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;I&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.330&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.255&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.080&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2050&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0895&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0395&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.055&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;I&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.425&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.300&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.095&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3515&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1410&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0775&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.120&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;F&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.530&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.415&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.150&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7775&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2370&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1415&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.330&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Let&amp;#39;s predict whether or not an abalone will have &amp;gt; 10 rings
+m1 &amp;lt;- glm(I(rings &amp;gt; 10) ~ ., data = df, family = binomial)
+preds_m1 &amp;lt;- predict(m1, type = &amp;#39;response&amp;#39;)
+
+# And another model with severe class imablance
+m2 &amp;lt;- glm(I(rings &amp;gt; 3) ~ ., data = df, family = binomial)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;preds_m2 &amp;lt;- predict(m2, type = &amp;#39;response&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;score-the-model&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Score the model&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# ---------- Model 1
+# Calculate the Brier Score
+brier_score(df$rings &amp;gt; 10, preds_m1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.1479862&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate each type of scaled Brier Score
+scaled_brier_score_1(df$rings &amp;gt; 10, preds_m1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.3462507&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scaled_brier_score_2(df$rings &amp;gt; 10, preds_m1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.3462507&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scaled_brier_score_3(df$rings &amp;gt; 10, preds_m1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.3462507&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# ---------- Model 2
+# Calculate the Brier Score
+brier_score(df$rings &amp;gt; 3, preds_m2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.002690905&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Calculate each type of scaled Brier Score
+scaled_brier_score_1(df$rings &amp;gt; 3, preds_m2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.3362851&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scaled_brier_score_2(df$rings &amp;gt; 3, preds_m2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.3362851&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scaled_brier_score_3(df$rings &amp;gt; 3, preds_m2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.3362851&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>An example preprint / working paper</title>
+      <link>/publication/preprint/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 -0400</pubDate>
+      
+      <guid>/publication/preprint/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Supplementary notes can be added here, including &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;code and math&lt;/a&gt;.
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Example Page</title>
+      <link>/tutorial/example/</link>
+      <pubDate>Sun, 09 Sep 2018 00:00:00 -0400</pubDate>
+      
+      <guid>/tutorial/example/</guid>
+      <description>
+
+&lt;p&gt;In this tutorial, I&amp;rsquo;ll share my top 10 tips for getting started with Academic:&lt;/p&gt;
+
+&lt;h2 id=&#34;tip-1&#34;&gt;Tip 1&lt;/h2&gt;
+
+&lt;p&gt;&amp;hellip;&lt;/p&gt;
+
+&lt;h2 id=&#34;tip-2&#34;&gt;Tip 2&lt;/h2&gt;
+
+&lt;p&gt;&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privacy Policy</title>
+      <link>/privacy/</link>
+      <pubDate>Thu, 28 Jun 2018 00:00:00 -0400</pubDate>
+      
+      <guid>/privacy/</guid>
+      <description>&lt;p&gt;&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Grey’s Anatomy Network of Sexual Relations</title>
+      <link>/post/grey-s-anatomy-network-of-sexual-relations/</link>
+      <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/grey-s-anatomy-network-of-sexual-relations/</guid>
+      <description>&lt;p&gt;&lt;em&gt;Here&amp;rsquo;s the blog post originally posted on &lt;code&gt;babelgraph.org&lt;/code&gt; on March 25, 2011. The relevant hyperlinks and &lt;code&gt;igraph&lt;/code&gt; code have been updated to reflect the current state of things. The edgelist, despite many more intervening seasons, and thus many more romances, has &lt;strong&gt;not&lt;/strong&gt; been updated. Here is a &lt;a href=&#34;http://badhessian.org/2012/09/lessons-on-exponential-random-graph-modeling-from-greys-anatomy-hook-ups/&#34; target=&#34;_blank&#34;&gt;nice walkthrough of ERGMs&lt;/a&gt; based on this post &amp;ndash; sorry for the broken link, Ben.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This all began with an introductory presentation about social network analysis to a group of medical students.  What better way to grab their attention than with attractive, fake doctors having sex on television?  Naturally this led to the dense network of sexual contacts between characters on the &lt;a href=&#34;http://en.wikipedia.org/wiki/Grey%27s_Anatomy&#34; target=&#34;_blank&#34;&gt;Grey’s Anatomy television show&lt;/a&gt;.  After viewing many hours of previous episodes and exploring fan pages (especially &lt;a href=&#34;http://insanegrey.livejournal.com/72234.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for an early attempt at a graph representation of sexual contacts), I was able to come up with an extensive but by no means exhaustive list of contacts.  The edge list is available &lt;a href=&#34;/images/babelgraph/greys/ga_edgelist.csv&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This example uses the &lt;a href=&#34;http://igraph.org/&#34; target=&#34;_blank&#34;&gt;igraph&lt;/a&gt; package for &lt;a href=&#34;http://www.r-project.org/&#34; target=&#34;_blank&#34;&gt;R&lt;/a&gt;, both free to download. First we create the graph, give it a layout, and plot.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;color:#00a&#34;&gt;library&lt;/span&gt;(igraph)
+ga.data &amp;lt;- read.csv(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;ga_edgelist.csv&amp;#39;&lt;/span&gt;, header = &lt;span style=&#34;color:#00a&#34;&gt;TRUE&lt;/span&gt;)
+g &amp;lt;- graph.data.frame(ga.data, directed=&lt;span style=&#34;color:#00a&#34;&gt;FALSE&lt;/span&gt;)
+&lt;span style=&#34;color:#00a&#34;&gt;summary&lt;/span&gt;(g)
+g$layout &amp;lt;- layout.fruchterman.reingold(g)
+plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Without knowing who is represented by each vertex, what can you deduce from the graph? From a public health perspective, if you could test one person for sexually transmitted infections (STIs), who would it be? If you could provide counseling and a free box of condoms to one person, who would it be? If you knew that an epidemic was spreading through this network, who would you want to be to best avoid it?&lt;/p&gt;
+
+&lt;p&gt;Now let’s make the visualization a little more interesting. First we can remove the labels for now, and then change the size of the vertex to represent the degree, or degree centrality, corresponding to the number of partners of each vertex. In the context of transmissible infections, this would indicate the number of people a person could infect or be infected by through sexual contact.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;V(g)$label &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;NA&lt;/span&gt; &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# remove labels for now&lt;/span&gt;
+V(g)$size &amp;lt;- degree(g) * &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# multiply by 2 for scale&lt;/span&gt;
+plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This tells us about the absolute number of partners, but not much about the relative position within the network. Let’s examine two types of centrality: closeness and betweenness. The closeness centrality is the average shortest path from one vertex to every other on the graph. A high number indicates that a vertex is quickly reachable by the majority of vertices in the graph, while a low number indicates that the vertex is far from most other vertices on the graph. We can calculate the centrality and then rescale the values to create a color scheme to visualize the relative differences.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;clo &amp;lt;- closeness(g)
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# rescale values to match the elements of a color vector&lt;/span&gt;
+clo.score &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;round&lt;/span&gt;( (clo - &lt;span style=&#34;color:#00a&#34;&gt;min&lt;/span&gt;(clo)) * &lt;span style=&#34;color:#00a&#34;&gt;length&lt;/span&gt;(clo) / &lt;span style=&#34;color:#00a&#34;&gt;max&lt;/span&gt;(clo) ) + &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# create color vector, use rev to make red &amp;#34;hot&amp;#34;&lt;/span&gt;
+clo.colors &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;rev&lt;/span&gt;(heat.colors(&lt;span style=&#34;color:#00a&#34;&gt;max&lt;/span&gt;(clo.score)))
+V(g)$color &amp;lt;- clo.colors[ clo.score ]
+plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot3.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It appears there are a few vertices on the red “hot” end of the spectrum, and a few at the “cold” end. Next we do the same for each vertex to calculate the betweenness centrality, which is the number of shortest paths on the network that pass through the vertex. Vertices with high betweenness centrality might be thought of as serving a gatekeeper role in mediating the shortest connections between other vertices.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;btw &amp;lt;- betweenness(g)
+btw.score &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;round&lt;/span&gt;(btw) + &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;
+btw.colors &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;rev&lt;/span&gt;(heat.colors(&lt;span style=&#34;color:#00a&#34;&gt;max&lt;/span&gt;(btw.score)))
+V(g)$color &amp;lt;- btw.colors[ btw.score ]
+plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot4.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This last graph of betweenness indicates slightly more variation among the likely suspects, while the analysis of closeness centrality demonstrated less variation. Why?&lt;/p&gt;
+
+&lt;p&gt;A useful technique in social network analysis is the use of community finding algorithms. Here we use the implementation of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Girvan%E2%80%93Newman_algorithm&#34; target=&#34;_blank&#34;&gt;Girvan-Newman algorithm&lt;/a&gt; (&lt;a href=&#34;http://www.pnas.org/content/99/12/7821&#34; target=&#34;_blank&#34;&gt;paper here&lt;/a&gt;) to detect the underlying community structure of the graph. We will iterate through each merge to determine which cut produces the maximum modularity, and then use that number to calculate the groups.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# this section has been substantially revised to reflect the&lt;/span&gt;
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# newer version of igraph which does GN membership easily&lt;/span&gt;
+V(g)$color &amp;lt;- membership(cluster_edge_betweenness(g))
+V(g)$size &amp;lt;- &lt;span style=&#34;color:#099&#34;&gt;15&lt;/span&gt; &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# reset to default size&lt;/span&gt;
+plot(g) &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# those new default igraph colors are so much nicer, too!&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot5.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you see the graph with names, it is interesting to note the breaks in connectivity around race and age (I guess you have to know the TV characters to appreciate this ;) ) So before seeing the names, back to the original question. Who would you test? Who would you counsel? Who would you vaccinate? Who would you rather be?&lt;/p&gt;
+
+&lt;p&gt;And the winners are…&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;V(g)$color &amp;lt;- &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;
+V(g)$label &amp;lt;- V(g)$name
+V(g)$label.cex &amp;lt;- &lt;span style=&#34;color:#099&#34;&gt;0.7&lt;/span&gt; &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# rescale the text size of the label&lt;/span&gt;
+plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot6.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>External Project</title>
+      <link>/project/external-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 -0400</pubDate>
+      
+      <guid>/project/external-project/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Internal Project</title>
+      <link>/project/internal-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 -0400</pubDate>
+      
+      <guid>/project/internal-project/</guid>
+      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
+
+&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
+
+&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
+
+&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
+
+&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>An example journal article</title>
+      <link>/publication/journal-article/</link>
+      <pubDate>Tue, 01 Sep 2015 00:00:00 -0400</pubDate>
+      
+      <guid>/publication/journal-article/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Supplementary notes can be added here, including &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;code and math&lt;/a&gt;.
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>An example conference paper</title>
+      <link>/publication/conference-paper/</link>
+      <pubDate>Mon, 01 Jul 2013 00:00:00 -0400</pubDate>
+      
+      <guid>/publication/conference-paper/</guid>
+      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Supplementary notes can be added here, including &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;code and math&lt;/a&gt;.
+  &lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Slides</title>
+      <link>/slides/example/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/slides/example/</guid>
+      <description>
+
+&lt;h1 id=&#34;welcome-to-slides&#34;&gt;Welcome to Slides&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://sourcethemes.com/academic/&#34; target=&#34;_blank&#34;&gt;Academic&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Efficiently write slides in Markdown&lt;/li&gt;
+&lt;li&gt;3-in-1: Create, Present, and Publish your slides&lt;/li&gt;
+&lt;li&gt;Supports speaker notes&lt;/li&gt;
+&lt;li&gt;Mobile friendly slides&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;controls&#34;&gt;Controls&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Next: &lt;code&gt;Right Arrow&lt;/code&gt; or &lt;code&gt;Space&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Previous: &lt;code&gt;Left Arrow&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Start: &lt;code&gt;Home&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Finish: &lt;code&gt;End&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Overview: &lt;code&gt;Esc&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Speaker notes: &lt;code&gt;S&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Fullscreen: &lt;code&gt;F&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Zoom: &lt;code&gt;Alt + Click&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/hakimel/reveal.js#pdf-export&#34; target=&#34;_blank&#34;&gt;PDF Export&lt;/a&gt;: &lt;code&gt;E&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;code-highlighting&#34;&gt;Code Highlighting&lt;/h2&gt;
+
+&lt;p&gt;Inline code: &lt;code&gt;variable&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Code block:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;porridge = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;blueberry&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;if&lt;/span&gt; porridge == &lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;blueberry&amp;#34;&lt;/span&gt;:
+    &lt;span style=&#34;color:#00a&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;Eating...&amp;#34;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;math&#34;&gt;Math&lt;/h2&gt;
+
+&lt;p&gt;In-line math: $x + y = z$&lt;/p&gt;
+
+&lt;p&gt;Block math:&lt;/p&gt;
+
+&lt;p&gt;$$
+f\left( x \right) = \;\frac{{2\left( {x + 4} \right)\left( {x - 4} \right)}}{{\left( {x + 4} \right)\left( {x + 1} \right)}}
+$$&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;fragments&#34;&gt;Fragments&lt;/h2&gt;
+
+&lt;p&gt;Make content appear incrementally&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{% fragment %}} One {{% /fragment %}}
+{{% fragment %}} **Two** {{% /fragment %}}
+{{% fragment %}} Three {{% /fragment %}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Press &lt;code&gt;Space&lt;/code&gt; to play!&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&#34;fragment &#34; &gt;
+   One
+&lt;/span&gt;
+&lt;span class=&#34;fragment &#34; &gt;
+   &lt;strong&gt;Two&lt;/strong&gt;
+&lt;/span&gt;
+&lt;span class=&#34;fragment &#34; &gt;
+   Three
+&lt;/span&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;A fragment can accept two optional parameters:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;class&lt;/code&gt;: use a custom style (requires definition in custom CSS)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;weight&lt;/code&gt;: sets the order in which a fragment appears&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;speaker-notes&#34;&gt;Speaker Notes&lt;/h2&gt;
+
+&lt;p&gt;Add speaker notes to your presentation&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;{{% speaker_note %}}
+&lt;span style=&#34;color:#00a&#34;&gt;-&lt;/span&gt; Only the speaker can read these notes
+&lt;span style=&#34;color:#00a&#34;&gt;-&lt;/span&gt; Press &lt;span style=&#34;color:#a50&#34;&gt;`S`&lt;/span&gt; key to view
+{{% /speaker_note %}}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Press the &lt;code&gt;S&lt;/code&gt; key to view the speaker notes!&lt;/p&gt;
+
+&lt;aside class=&#34;notes&#34;&gt;
+  &lt;ul&gt;
+&lt;li&gt;Only the speaker can read these notes&lt;/li&gt;
+&lt;li&gt;Press &lt;code&gt;S&lt;/code&gt; key to view&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/aside&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;black: Black background, white text, blue links (default)&lt;/li&gt;
+&lt;li&gt;white: White background, black text, blue links&lt;/li&gt;
+&lt;li&gt;league: Gray background, white text, blue links&lt;/li&gt;
+&lt;li&gt;beige: Beige background, dark text, brown links&lt;/li&gt;
+&lt;li&gt;sky: Blue background, thin dark text, blue links&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;ul&gt;
+&lt;li&gt;night: Black background, thick white text, orange links&lt;/li&gt;
+&lt;li&gt;serif: Cappuccino background, gray text, brown links&lt;/li&gt;
+&lt;li&gt;simple: White background, black text, blue links&lt;/li&gt;
+&lt;li&gt;solarized: Cream-colored background, dark green text, blue links&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+
+&lt;section data-noprocess data-shortcode-slide
+  
+      
+      data-background-image=&#34;/img/boards.jpg&#34;
+  &gt;
+
+
+&lt;h2 id=&#34;custom-slide&#34;&gt;Custom Slide&lt;/h2&gt;
+
+&lt;p&gt;Customize the slide style and background&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;{{&amp;lt; slide background-image=&amp;#34;/img/boards.jpg&amp;#34; &amp;gt;}}
+{{&amp;lt; slide background-color=&amp;#34;#0000FF&amp;#34; &amp;gt;}}
+{{&amp;lt; slide class=&amp;#34;my-style&amp;#34; &amp;gt;}}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;custom-css-example&#34;&gt;Custom CSS Example&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s make headers navy colored.&lt;/p&gt;
+
+&lt;p&gt;Create &lt;code&gt;assets/css/reveal_custom.css&lt;/code&gt; with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;.&lt;span style=&#34;color:#0a0;text-decoration:underline&#34;&gt;reveal&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;section&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;h1&lt;/span&gt;,
+.&lt;span style=&#34;color:#0a0;text-decoration:underline&#34;&gt;reveal&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;section&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;h2&lt;/span&gt;,
+.&lt;span style=&#34;color:#0a0;text-decoration:underline&#34;&gt;reveal&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;section&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;h3&lt;/span&gt; {
+  &lt;span style=&#34;color:#00a&#34;&gt;color&lt;/span&gt;: &lt;span style=&#34;color:#00a&#34;&gt;navy&lt;/span&gt;;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;questions&#34;&gt;Questions?&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://discourse.gohugo.io&#34; target=&#34;_blank&#34;&gt;Ask&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://sourcethemes.com/academic/docs/&#34; target=&#34;_blank&#34;&gt;Documentation&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
