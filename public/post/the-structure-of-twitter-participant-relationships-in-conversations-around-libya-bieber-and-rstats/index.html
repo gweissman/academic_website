@@ -27,11 +27,11 @@
   
     
   
-  <meta name="description" content="Not infrequently I am in a research meeting and someone says, &ldquo;It would be really cool to get data on travel times for people. But I don&rsquo;t know where to find that.&rdquo; Here you will find just that. Please note that Google Maps terms of service are relevant for large data requests and potential privacy concerns for protected health information.
-Case Mr. Jones spends all his time at a coffee shop.">
+  <meta name="description" content="Here&rsquo;s the blog post originally posted on babelgraph.org on April 4, 2011. I suspect the twitter API and much of the code below are not up to date.
+I am a recent comer to twitter, and it took me a few weeks to figure out what this was all about. Who are all these people tweeting each other and what do all these trending hashtags mean? Do these people all know each other?">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/transportation-data-in-r-why-yes-yes-you-can/">
+  <link rel="alternate" hreflang="en-us" href="/post/the-structure-of-twitter-participant-relationships-in-conversations-around-libya-bieber-and-rstats/">
 
   
 
@@ -101,7 +101,7 @@ Case Mr. Jones spends all his time at a coffee shop.">
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/post/transportation-data-in-r-why-yes-yes-you-can/">
+  <link rel="canonical" href="/post/the-structure-of-twitter-participant-relationships-in-conversations-around-libya-bieber-and-rstats/">
 
   
   
@@ -116,22 +116,22 @@ Case Mr. Jones spends all his time at a coffee shop.">
   <meta property="twitter:creator" content="@garyweissman">
   
   <meta property="og:site_name" content="Gary Weissman, MD, MSHP">
-  <meta property="og:url" content="/post/transportation-data-in-r-why-yes-yes-you-can/">
-  <meta property="og:title" content="Transportation data in R: Why yes, yes you can | Gary Weissman, MD, MSHP">
-  <meta property="og:description" content="Not infrequently I am in a research meeting and someone says, &ldquo;It would be really cool to get data on travel times for people. But I don&rsquo;t know where to find that.&rdquo; Here you will find just that. Please note that Google Maps terms of service are relevant for large data requests and potential privacy concerns for protected health information.
-Case Mr. Jones spends all his time at a coffee shop."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:url" content="/post/the-structure-of-twitter-participant-relationships-in-conversations-around-libya-bieber-and-rstats/">
+  <meta property="og:title" content="The structure of twitter participant relationships in conversations around #Libya, #Bieber, and #Rstats | Gary Weissman, MD, MSHP">
+  <meta property="og:description" content="Here&rsquo;s the blog post originally posted on babelgraph.org on April 4, 2011. I suspect the twitter API and much of the code below are not up to date.
+I am a recent comer to twitter, and it took me a few weeks to figure out what this was all about. Who are all these people tweeting each other and what do all these trending hashtags mean? Do these people all know each other?"><meta property="og:image" content="/img/icon-192.png">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2017-06-15T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2019-04-24T12:22:35-04:00">
+  <meta property="article:modified_time" content="2017-06-15T00:00:00&#43;00:00">
   
 
   
 
   
 
-  <title>Transportation data in R: Why yes, yes you can | Gary Weissman, MD, MSHP</title>
+  <title>The structure of twitter participant relationships in conversations around #Libya, #Bieber, and #Rstats | Gary Weissman, MD, MSHP</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
@@ -350,7 +350,7 @@ Case Mr. Jones spends all his time at a coffee shop."><meta property="og:image" 
   
   
 <div class="article-container pt-3">
-  <h1 itemprop="name">Transportation data in R: Why yes, yes you can</h1>
+  <h1 itemprop="name">The structure of twitter participant relationships in conversations around #Libya, #Bieber, and #Rstats</h1>
 
   
 
@@ -360,7 +360,7 @@ Case Mr. Jones spends all his time at a coffee shop."><meta property="og:image" 
 
 
 <meta content="2017-06-15 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-<meta content="2019-04-24 12:22:35 -0400 EDT" itemprop="dateModified">
+<meta content="2017-06-15 00:00:00 &#43;0000 UTC" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -372,10 +372,8 @@ Case Mr. Jones spends all his time at a coffee shop."><meta property="og:image" 
     
     
       
-          Last updated on
-      
     
-    <time>Apr 24, 2019</time>
+    <time>Jun 15, 2017</time>
   </span>
   
 
@@ -384,7 +382,7 @@ Case Mr. Jones spends all his time at a coffee shop."><meta property="og:image" 
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    3 min read
+    5 min read
   </span>
   
 
@@ -398,9 +396,13 @@ Case Mr. Jones spends all his time at a coffee shop."><meta property="og:image" 
   <span class="article-categories">
     <i class="fas fa-folder"></i>
     
+    <a href="/categories/twitter/">twitter</a>, 
+    
     <a href="/categories/r/">r</a>, 
     
-    <a href="/categories/maps/">maps</a>
+    <a href="/categories/babelgraph/">babelgraph</a>, 
+    
+    <a href="/categories/blog/">blog</a>
     
   </span>
   
@@ -438,84 +440,125 @@ Case Mr. Jones spends all his time at a coffee shop."><meta property="og:image" 
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      
+      <p><em>Here&rsquo;s the blog post originally posted on <code>babelgraph.org</code> on April 4, 2011. I suspect the twitter API and much of the code below are <strong>not</strong> up to date.</em></p>
 
-<p>Not infrequently I am in a research meeting and someone says, &ldquo;It would be really cool to get data on travel times for people. But I don&rsquo;t know where to find that.&rdquo; Here you will find just that. Please note that Google Maps <a href="https://developers.google.com/maps/terms" target="_blank">terms of service</a> are relevant for large data requests and potential privacy concerns for protected health information.</p>
+<p>I am a recent comer to <a href="twitter.com" target="_blank">twitter</a>, and it took me a few weeks to figure out what this was all about. Who are all these people tweeting each other and what do all these trending hashtags mean? Do these people all know each other? How do they get involved in these conversations? Are people really talking/listening to each other, or just spewing 140 character projectiles out into the void?</p>
 
-<h2 id="case">Case</h2>
+<p>This piqued my interest in the structure of relationships of participants in different twitter conversations. Using <a href="http://www.r-project.org/" target="_blank">R</a>, with the <a href="http://cran.r-project.org/web/packages/twitteR/index.html" target="_blank">twitteR</a> and <a href="http://igraph.org/" target="_blank">igraph</a> packages, I wondered what I would find&hellip;</p>
 
-<p>Mr. Jones spends all his time at a <a href="http://www.hobbscoffee.com" target="_blank">coffee shop</a>. Mr. Jones has hypertension, diabetes, and hyperlipidemia, and it doesn&rsquo;t seem likely he will visit his <a href="https://www.pennmedicine.org/providers/practice/penn-center-for-primary-care" target="_blank">primary care doctor</a> anytime soon. Can we describe his potential travel time between his favorite coffee shop and his primary care doctor to better understand his transportation barriers? Why yes, yes we can.</p>
+<p>In terms of mapping twitter networks with R, I found <a href="http://blog.ynada.com/247" target="_blank">this post</a> for mapping one’s own personal network of connections. For other visualizations, I found a <a href="http://flowingdata.com/2008/03/12/17-ways-to-visualize-the-twitter-universe/" target="_blank">collection</a> of various visualizations for the twitterverse, and an <a href="http://www.orgnet.com/twitter.html" target="_blank">interactive map</a> of connected users.</p>
 
-<h2 id="transport">Transport</h2>
+<p>Here I am really interested in the network of participants in a particular conversation. I started off with “#Rstats,” expecting to see a tightly knit community of users who all seem to know each other (at least virtually), sending each other personal updates or tech support tweets. Next I looked at “#Libya,” where I imagined there would be a lot of twitterers with massive followings, but who were unlikely following each other, and producing hordes of news-type updates. Finally I looked at “#Bieber,” (I swear didn’t even know who he was up until a few weeks ago), where I expected to see platoons of small-time twitterers, who likely don’t follow each other, pouring out disconnected digital adulations into the twitterverse.</p>
 
-<pre><code class="language-r">library(ggmap)
-# quick start to ggmap: https://github.com/dkahle/ggmap
+<p>The following script was used to construct the networks for each search item.</p>
 
-# Specify where Mr. Jones is and where he's going
-# you can also use specific addresses if you already have them
-origin &lt;- 'Hobbs Coffee Shop, Swarthmore'
-destination &lt;- 'Penn Center for Primary Care, Philadelphia'
-
-# get some routes -- driving
-my_commute_drive &lt;- route(origin, destination, 
-    structure = 'route', mode = 'driving')
-print(my_commute_drive)
+<pre><code class="language-r"># an R script to generate the social network of contributors
+# to a particular search term
+# author: Gary Weissman
+# twitter: @garyweissman
+ 
+# choose a conversation and size of search
+search.term &lt;- '#Rstats'
+search.size &lt;- 50
+ 
+# load required libraries
+library(igraph)
+library(twitteR)
+ 
+# get recent results from search
+search.results &lt;- searchTwitter(search.term,n=search.size)
+ 
+# build the vertex list
+vl &lt;- vector()
+for (twt in search.results)
+  vl &lt;- c(vl,screenName(twt))
+ 
+# calculate contribution of each user in the conversation
+vl &lt;- as.data.frame(table(vl))
+ 
+# provide nice names for data
+colnames(vl) &lt;- c('user','tweets')
+ 
+# build the network of relations between contributors
+g &lt;- graph.empty(directed=TRUE)
+g &lt;- add.vertices(g,nrow(vl),name=as.character(vl$user),
+      tweets=vl$tweets)
+ 
+V(g)$followers &lt;- 0 # default to zero
+ 
+# count total number of followers in the larger twitterverse and
+# add relationships based on who follows whom within the conversation
+for (usr in V(g)) {
+ 
+  # get the user info by name
+  tuser &lt;- getUser(V(g)$name[usr+1])
+  print(paste(&quot;Getting info on&quot;,screenName(tuser)))
+ 
+  # count total followers in larger twitterverse
+  V(g)$followers[usr+1] &lt;- followersCount(tuser)
+ 
+  # access as many followers as we can to see if any
+  # appeared in the search results
+  followers.list &lt;- userFollowers(tuser,n=1200)
+  for (tflwr in followers.list) {
+   if (screenName(tflwr) %in% V(g)$name)
+    g &lt;- add.edges(g,c(as.vector(V(g)[ name == screenName(tflwr) ]),usr))
+  }
+  print('Sleeping 10 min...')
+  Sys.sleep(600); # don't exceed request limit
+}
+ 
+# layout the graph
+g$layout &lt;- layout.fruchterman.reingold(g)
+# adjust size based on number of total followers
+# scale accordingly to keep readable
+V(g)$size = log( V(g)$followers ) * 1.8
+# set label name and size
+V(g)$label=V(g)$name
+V(g)$label.cex = 0.6
+# do something with color...
+tcolors &lt;- rev(heat.colors(max(V(g)$tweets)))
+V(g)$color &lt;- tcolors[ V(g)$tweets ]
+# make edge arrows less intrusive
+E(g)$arrow.size &lt;- 0.3
+# make symmetric connections a little easier to read
+E(g)$curved &lt;- FALSE # fun to play with
+E(g)$color &lt;- 'blue'
+# now plot...
+plot(g)
 </code></pre>
 
-<pre><code>      m    km     miles seconds   minutes       hours leg       lon      lat
-1    30 0.030 0.0186420       8 0.1333333 0.002222222   1 -75.35005 39.90210
-2   162 0.162 0.1006668      56 0.9333333 0.015555556   2 -75.35033 39.90226
-3  1047 1.047 0.6506058     123 2.0500000 0.034166667   3 -75.35089 39.90116
-4  1829 1.829 1.1365406     214 3.5666667 0.059444444   4 -75.35296 39.89203
-5   747 0.747 0.4641858      63 1.0500000 0.017500000   5 -75.34469 39.87802
-6  4516 4.516 2.8062424     190 3.1666667 0.052777778   6 -75.35102 39.87342
-7  5664 5.664 3.5196096     189 3.1500000 0.052500000   7 -75.30839 39.86862
-8  5534 5.534 3.4388276     247 4.1166667 0.068611111   8 -75.24609 39.88126
-9  2236 2.236 1.3894504     126 2.1000000 0.035000000   9 -75.19435 39.90546
-10 1111 1.111 0.6903754      49 0.8166667 0.013611111  10 -75.19280 39.92460
-11  347 0.347 0.2156258      20 0.3333333 0.005555556  11 -75.20004 39.93279
-12  907 0.907 0.5636098     145 2.4166667 0.040277778  12 -75.19939 39.93587
-13 1556 1.556 0.9668984     344 5.7333333 0.095555556  13 -75.19639 39.94367
-14  141 0.141 0.0876174      31 0.5166667 0.008611111  14 -75.19798 39.95667
-15  114 0.114 0.0708396      30 0.5000000 0.008333333  15 -75.19761 39.95791
-16  105 0.105 0.0652470      41 0.6833333 0.011388889  16 -75.19893 39.95809
-17   NA    NA        NA      NA        NA          NA  NA -75.19930 39.95843
-</code></pre>
+<p>Technical notes: It wasn’t always clear to me what counted as a “request” in the twitter API, because even a small handful of requests with long results would sometimes seem to count as more toward the hourly quota. Putting a ten minute delay between requests with Sys.sleep(600) was enough to solve the problem. I also tweaked the layouts a bit using tkplot.getcoords(). NB. tkplot() does not permit certain graph attributes such as label.vertex.cex, so you have to remove it before opening the graph in tkplot. You can then just add it back later. More details on this tkplot issue <a href="https://bugs.launchpad.net/igraph/+bug/572559" target="_blank">here</a>.</p>
 
-<p>Or try public transit.</p>
+<p>The size of the vertex is proportional to the log of the number of followers in the wider twitterverse, and the color of vertex represents the number of tweets found in the search results by that user. See code above for specifics.</p>
 
-<pre><code class="language-r"># route -- transit
-my_commute_transit &lt;- route(origin, destination, 
-    structure = 'route', mode = 'transit')
-print(my_commute_transit)
-</code></pre>
+<p>#Bieber</p>
 
-<pre><code>      m     km      miles seconds   minutes      hours leg       lon      lat
-1    49  0.049  0.0304486      39  0.650000 0.01083333   1 -75.35005 39.90210
-2 16750 16.750 10.4084500    1560 26.000000 0.43333333   2 -75.35083 39.90222
-3   239  0.239  0.1485146     239  3.983333 0.06638889   3 -75.18166 39.95667
-4  1624  1.624  1.0091536     180  3.000000 0.05000000   4 -75.18325 39.95489
-5   424  0.424  0.2634736     313  5.216667 0.08694444   5 -75.20197 39.95719
-6    NA     NA         NA      NA        NA         NA  NA -75.19930 39.95843
-</code></pre>
+<p><img src="/images/babelgraph/twitter/bieber_plot.png" alt="" /></p>
 
-<p>Let&rsquo;s see what a walk would look like.</p>
+<p>#Libya</p>
 
-<pre><code class="language-r"># route -- walking
-my_commute_walk &lt;- route(origin, destination, 
-    structure = 'route', mode = 'walking')
-print(my_commute_walk)
+<p><img src="/images/babelgraph/twitter/libya_plot.png" alt="" /></p>
 
-# now plot the commute path
-qmap(destination, zoom = 11) + 
-    geom_path(aes(x=lon, y = lat), color = 'red', 
-        size = 1.5, data = my_commute_walk, 
-        lineend = 'round')
-</code></pre>
+<p>#Rstats</p>
 
-<p><img src="/images/walk_commute_map.png" alt="" /></p>
+<p><img src="/images/babelgraph/twitter/rstats_plot.png" alt="" /></p>
 
-<p>Mr. Jones, inspired by this map, just put down his triple-shot latte and is walking to his doctor&rsquo;s office right now.</p>
+<p>The networks obviously look very different. Here is a plot of the degree distribution of each graph:</p>
+
+<p><img src="/images/babelgraph/twitter/abs_deg_dist_by_search_term.png" alt="" /></p>
+
+<p>Even more interesting is the simple comparison of the number of edges in each graph. Very telling.</p>
+
+<p><img src="/images/babelgraph/twitter/vertex_edge_counts_by_search_term.png" alt="" /></p>
+
+<p>I did not look at the clustering coefficient here, but that would be interesting, too.</p>
+
+<p>Does this mean that R users are part of a twitter <em>community</em>?</p>
+
+<p>Limitations on this approach include the size of the user sample (limited by the twitter API to 150 requests per hour), as well as limits on the size of lists retrieved by the <code>userFriends()</code> method (I believe the limit is 1200 items). These former limits the sample size significantly, and provides only a brief snapshot in time of the participants in any one conversation. The latter favors the construction of edges between twitterers with fewer followers, thus understestimating the total edges that may exist in the network. Is there a workaround for these limitations on the API? I believe requesting whitelist status from twitter, or perhaps authenticating with ROAuth would increase the number of permitted requests, but I haven’t tried them yet.</p>
+
+<p>Do you know to whom you tweet?</p>
 
     </div>
 
