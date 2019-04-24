@@ -3,242 +3,220 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://gweissman.github.io/talk/example/</loc>
+    <loc>/talk/example/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/</loc>
+    <loc>/</loc>
     <lastmod>2019-04-23T21:15:21-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/</loc>
+    <loc>/categories/</loc>
     <lastmod>2019-04-23T21:15:21-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</loc>
+    <loc>/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/brier-score/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/categories/predictive-modeling/</loc>
+    <loc>/categories/brier-score/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/publication_types/3/</loc>
+    <loc>/categories/predictive-modeling/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/publication/preprint/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/authors/</loc>
+    <loc>/publication_types/3/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/publication_types/</loc>
+    <loc>/publication/preprint/</loc>
+    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/authors/</loc>
+    <lastmod>2019-04-23T21:31:13-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/publication_types/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/tags/source-themes/</loc>
+    <loc>/tags/source-themes/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/authors/admin/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+    <loc>/authors/admin/</loc>
+    <lastmod>2019-04-23T21:31:13-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/tutorial/example/</loc>
+    <loc>/privacy/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/tutorial/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</loc>
+    <loc>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</loc>
     <lastmod>2019-04-23T21:12:47-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/keras/</loc>
+    <loc>/categories/keras/</loc>
     <lastmod>2019-04-23T21:12:47-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/python/</loc>
+    <loc>/categories/python/</loc>
     <lastmod>2019-04-23T21:12:47-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/rnn/</loc>
+    <loc>/categories/rnn/</loc>
     <lastmod>2019-04-23T21:12:47-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/post/making-choropleth-maps-by-zip-code/</loc>
+    <loc>/post/making-choropleth-maps-by-zip-code/</loc>
     <lastmod>2019-04-23T21:15:21-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/r/</loc>
-    <lastmod>2019-04-23T21:15:21-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/categories/maps/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2019-04-23T21:15:21-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/post/grey-s-anatomy-network-of-sexual-relations/</loc>
+    <loc>/categories/maps/</loc>
+    <lastmod>2019-04-23T21:15:21-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/grey-s-anatomy-network-of-sexual-relations/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/babelgraph/</loc>
+    <loc>/post/welcome-to-the-blog/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/babelgraph/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/blog/</loc>
+    <loc>/categories/blog/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/categories/social-network-analysis/</loc>
+    <loc>/categories/meta/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/social-network-analysis/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/tags/deep-learning/</loc>
+    <loc>/publication_types/2/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/tags/demo/</loc>
+    <loc>/publication/journal-article/</loc>
+    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication_types/1/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/project/external-project/</loc>
+    <loc>/publication/conference-paper/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/project/internal-project/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/project/</loc>
+    <loc>/authors/robert-ford/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/publication_types/2/</loc>
+    <loc>/author/admin/</loc>
+    <lastmod>2019-04-23T21:31:13-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/author/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication/</loc>
+    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/</loc>
+    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/slides/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://gweissman.github.io/publication/journal-article/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/publication_types/1/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/publication/conference-paper/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/authors/robert-ford/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/author/admin/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/author/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/post/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/publication/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/talk/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/slides/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://gweissman.github.io/slides/example/</loc>
+    <loc>/slides/example/</loc>
     <lastmod>2019-04-23T21:06:34-04:00</lastmod>
   </url>
   

@@ -2,102 +2,111 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Gary Weissman, MD, MSHP</title>
-    <link>https://gweissman.github.io/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Gary Weissman, MD, MSHP</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 23 Apr 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://gweissman.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>brier score</title>
-      <link>https://gweissman.github.io/categories/brier-score/</link>
+      <link>/categories/brier-score/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/brier-score/</guid>
+      <guid>/categories/brier-score/</guid>
       <description></description>
     </item>
     
     <item>
       <title>predictive modeling</title>
-      <link>https://gweissman.github.io/categories/predictive-modeling/</link>
+      <link>/categories/predictive-modeling/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/predictive-modeling/</guid>
+      <guid>/categories/predictive-modeling/</guid>
       <description></description>
     </item>
     
     <item>
       <title>keras</title>
-      <link>https://gweissman.github.io/categories/keras/</link>
+      <link>/categories/keras/</link>
       <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/keras/</guid>
+      <guid>/categories/keras/</guid>
       <description></description>
     </item>
     
     <item>
       <title>python</title>
-      <link>https://gweissman.github.io/categories/python/</link>
+      <link>/categories/python/</link>
       <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/python/</guid>
+      <guid>/categories/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rnn</title>
-      <link>https://gweissman.github.io/categories/rnn/</link>
+      <link>/categories/rnn/</link>
       <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/rnn/</guid>
+      <guid>/categories/rnn/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>https://gweissman.github.io/categories/r/</link>
+      <link>/categories/r/</link>
       <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/r/</guid>
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>maps</title>
-      <link>https://gweissman.github.io/categories/maps/</link>
+      <link>/categories/maps/</link>
       <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/maps/</guid>
+      <guid>/categories/maps/</guid>
       <description></description>
     </item>
     
     <item>
       <title>babelgraph</title>
-      <link>https://gweissman.github.io/categories/babelgraph/</link>
+      <link>/categories/babelgraph/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/babelgraph/</guid>
+      <guid>/categories/babelgraph/</guid>
       <description></description>
     </item>
     
     <item>
       <title>blog</title>
-      <link>https://gweissman.github.io/categories/blog/</link>
+      <link>/categories/blog/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/blog/</guid>
+      <guid>/categories/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>meta</title>
+      <link>/categories/meta/</link>
+      <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/meta/</guid>
       <description></description>
     </item>
     
     <item>
       <title>social network analysis</title>
-      <link>https://gweissman.github.io/categories/social-network-analysis/</link>
+      <link>/categories/social-network-analysis/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/categories/social-network-analysis/</guid>
+      <guid>/categories/social-network-analysis/</guid>
       <description></description>
     </item>
     

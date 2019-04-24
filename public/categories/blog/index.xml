@@ -2,23 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>blog on Gary Weissman, MD, MSHP</title>
-    <link>https://gweissman.github.io/categories/blog/</link>
+    <link>/categories/blog/</link>
     <description>Recent content in blog on Gary Weissman, MD, MSHP</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 15 Jun 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://gweissman.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Grey’s Anatomy Network of Sexual Relations</title>
-      <link>https://gweissman.github.io/post/grey-s-anatomy-network-of-sexual-relations/</link>
+      <link>/post/grey-s-anatomy-network-of-sexual-relations/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/post/grey-s-anatomy-network-of-sexual-relations/</guid>
+      <guid>/post/grey-s-anatomy-network-of-sexual-relations/</guid>
       <description>Here&amp;rsquo;s the blog post originally posted on babelgraph.org on March 25, 2011. The relevant hyperlinks and igraph code have been updated to reflect the current state of things. The edgelist, despite many more intervening seasons, and thus many more romances, has not been updated. Here is a nice walkthrough of ERGMs based on this post &amp;ndash; sorry for the broken link, Ben.
 This all began with an introductory presentation about social network analysis to a group of medical students.</description>
+    </item>
+    
+    <item>
+      <title>Welcome to the blog!</title>
+      <link>/post/welcome-to-the-blog/</link>
+      <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/welcome-to-the-blog/</guid>
+      <description>Welcome to this blog, which is the new home for thoughts and technical things. As babelgraph.org has been retired, you can still get the code at:
+BabelGraph Alpha
+Over time I will try to migrate the old blog posts (mostly dealing with network analyses and C++ using R) to here along with the very informative user comments, and updates.
+For old time&amp;rsquo;s sake, here is the old thumbnail gallery from the BabelGraph Alpha release (mixed Linux and Mac screenshots).</description>
     </item>
     
   </channel>

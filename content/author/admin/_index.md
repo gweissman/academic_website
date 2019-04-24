@@ -15,9 +15,9 @@ education:
     year: 2002
 email: "gary.weissman@pennmedicine.upenn.edu"
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Pulmonary and Critical Care Medicine
+- Clinical Informatics
+- Natural Language Processing
 name: Gary Weissman
 organizations:
 - name: University of Pennsylvania
@@ -42,5 +42,4 @@ user_groups:
 - Visitors
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
-
+I am a pulmonary and critical care physician at the University of Pennsylvania Perelman School of Medicine, and core faculty at the Palliative and Advanced Illness Research (PAIR) Center. My research interests include clinical informatics, natural language processing, machine learning, population health, and pragmatic trials. I am also a Senior Fellow at the Leonard Davis Institute of Health Economics.

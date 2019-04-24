@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Gary Weissman, MD, MSHP</title>
-    <link>https://gweissman.github.io/post/</link>
+    <link>/post/</link>
     <description>Recent content in Posts on Gary Weissman, MD, MSHP</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="https://gweissman.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Evaluating the equivalence of different formulations of the scaled Brier score</title>
-      <link>https://gweissman.github.io/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</link>
+      <link>/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</link>
       <pubDate>Tue, 23 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</guid>
+      <guid>/post/evaluating-the-equivalence-of-different-formulations-of-the-scaled-brier-score/</guid>
       <description>Background The Brier Score is a composite measure of discrimination and calibration for a prediction model. The Brier Score is defined as
 \[ BS = \frac{1}{N} \sum (y_i - \hat y_i)^2, \]
 where \(N\) is the number of observations, \(y_i\) is the observed outcome, either 0 or 1, and \(\hat y_i\) is the predicted probability for the \(i\)th observation. Let’s create an R function calculate the Brier Score:
@@ -24,10 +24,10 @@ brier_score &amp;lt;- function(obs, pred) { mean((obs - pred)^2) } The scaled Br
     
     <item>
       <title>Building a recurrent neural network to predict time-series data with Keras in Python</title>
-      <link>https://gweissman.github.io/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</link>
+      <link>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</link>
       <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</guid>
+      <guid>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</guid>
       <description>Recurrent neural networks and their variants are helpful for extracting information from time series. Here&amp;rsquo;s an example using sample data to get up and running.
 I found the following other websites helpful in reading up on code examples:
  https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/ https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py  # setup import numpy as np import pandas as pd import math import matplotlib.pyplot as plt from keras.models import Sequential from keras.layers import Dense, Dropout, SimpleRNN from keras.</description>
@@ -35,22 +35,34 @@ I found the following other websites helpful in reading up on code examples:
     
     <item>
       <title>Making choropleth maps by zip code</title>
-      <link>https://gweissman.github.io/post/making-choropleth-maps-by-zip-code/</link>
+      <link>/post/making-choropleth-maps-by-zip-code/</link>
       <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/post/making-choropleth-maps-by-zip-code/</guid>
+      <guid>/post/making-choropleth-maps-by-zip-code/</guid>
       <description>Every now and then it is useful to make a map. In times of political uncertainty, data can light a path forward. Your local elected officals may be interested in data, too, and how they impact policy (and re-election, of course).
 Let&amp;rsquo;s say you wanted to know if people are still enrolling the Healthcare.gov plans in your local State Senatorial district. It&amp;rsquo;s quite difficult to find data broken up at this level but zip codes can approximate such an approach.</description>
     </item>
     
     <item>
       <title>Grey’s Anatomy Network of Sexual Relations</title>
-      <link>https://gweissman.github.io/post/grey-s-anatomy-network-of-sexual-relations/</link>
+      <link>/post/grey-s-anatomy-network-of-sexual-relations/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://gweissman.github.io/post/grey-s-anatomy-network-of-sexual-relations/</guid>
+      <guid>/post/grey-s-anatomy-network-of-sexual-relations/</guid>
       <description>Here&amp;rsquo;s the blog post originally posted on babelgraph.org on March 25, 2011. The relevant hyperlinks and igraph code have been updated to reflect the current state of things. The edgelist, despite many more intervening seasons, and thus many more romances, has not been updated. Here is a nice walkthrough of ERGMs based on this post &amp;ndash; sorry for the broken link, Ben.
 This all began with an introductory presentation about social network analysis to a group of medical students.</description>
+    </item>
+    
+    <item>
+      <title>Welcome to the blog!</title>
+      <link>/post/welcome-to-the-blog/</link>
+      <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/welcome-to-the-blog/</guid>
+      <description>Welcome to this blog, which is the new home for thoughts and technical things. As babelgraph.org has been retired, you can still get the code at:
+BabelGraph Alpha
+Over time I will try to migrate the old blog posts (mostly dealing with network analyses and C++ using R) to here along with the very informative user comments, and updates.
+For old time&amp;rsquo;s sake, here is the old thumbnail gallery from the BabelGraph Alpha release (mixed Linux and Mac screenshots).</description>
     </item>
     
   </channel>
