@@ -41,5 +41,15 @@ I am a recent comer to twitter, and it took me a few weeks to figure out what th
 Case Mr. Jones spends all his time at a coffee shop.</description>
     </item>
     
+    <item>
+      <title>Rcpp is smoking fast for agent based models in data frames</title>
+      <link>/post/rcpp-is-smoking-fast-for-agent-based-models-in-data-frames/</link>
+      <pubDate>Wed, 15 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/post/rcpp-is-smoking-fast-for-agent-based-models-in-data-frames/</guid>
+      <description>Here&amp;rsquo;s the blog post originally posted on babelgraph.org on July 11, 2012. Thanks to Hadley Wickham for referencing some of content here, and apologies for the broken URL. NB. The original C++ code didn&amp;rsquo;t seem to compile on my computer today. It required a small tweak with NumericVector::create &amp;ndash; see below.
+In particular, R data frames provide a simple framework for representing large cohorts of agents in stochastic epidemiological models, such as those representing disease transmission.</description>
+    </item>
+    
   </channel>
 </rss>
