@@ -21,5 +21,15 @@
 Let&amp;rsquo;s say you wanted to know if people are still enrolling the Healthcare.gov plans in your local State Senatorial district. It&amp;rsquo;s quite difficult to find data broken up at this level but zip codes can approximate such an approach.</description>
     </item>
     
+    <item>
+      <title>Transportation data in R: Why yes, yes you can</title>
+      <link>/post/transportation-data-in-r-why-yes-yes-you-can/</link>
+      <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/transportation-data-in-r-why-yes-yes-you-can/</guid>
+      <description>Not infrequently I am in a research meeting and someone says, &amp;ldquo;It would be really cool to get data on travel times for people. But I don&amp;rsquo;t know where to find that.&amp;rdquo; Here you will find just that. Please note that Google Maps terms of service are relevant for large data requests and potential privacy concerns for protected health information.
+Case Mr. Jones spends all his time at a coffee shop.</description>
+    </item>
+    
   </channel>
 </rss>

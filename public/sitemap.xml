@@ -9,13 +9,13 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-04-23T21:15:21-04:00</lastmod>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2019-04-23T21:15:21-04:00</lastmod>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -49,7 +49,7 @@
   
   <url>
     <loc>/authors/</loc>
-    <lastmod>2019-04-23T21:31:13-04:00</lastmod>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -73,7 +73,7 @@
   
   <url>
     <loc>/authors/admin/</loc>
-    <lastmod>2019-04-23T21:31:13-04:00</lastmod>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -111,13 +111,13 @@
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
+    <loc>/categories/maps/</loc>
     <lastmod>2019-04-23T21:15:21-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/maps/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2019-04-23T21:15:21-04:00</lastmod>
     <priority>0</priority>
   </url>
@@ -128,25 +128,30 @@
   </url>
   
   <url>
-    <loc>/post/welcome-to-the-blog/</loc>
+    <loc>/post/transportation-data-in-r-why-yes-yes-you-can/</loc>
     <lastmod>2017-06-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
+    <loc>/post/welcome-to-the-blog/</loc>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/babelgraph/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/blog/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/meta/</loc>
-    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -186,7 +191,7 @@
   
   <url>
     <loc>/author/admin/</loc>
-    <lastmod>2019-04-23T21:31:13-04:00</lastmod>
+    <lastmod>2019-04-24T12:20:09-04:00</lastmod>
   </url>
   
   <url>
