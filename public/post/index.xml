@@ -32,12 +32,22 @@ brier_score &amp;lt;- function(obs, pred) { mean((obs - pred)^2) } The scaled Br
     </item>
     
     <item>
+      <title>Making choropleth maps by zip code</title>
+      <link>/post/making-choropleth-maps-by-zip-code/</link>
+      <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/making-choropleth-maps-by-zip-code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Grey’s Anatomy Network of Sexual Relations</title>
       <link>/post/grey-s-anatomy-network-of-sexual-relations/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/grey-s-anatomy-network-of-sexual-relations/</guid>
-      <description></description>
+      <description>Here&amp;rsquo;s the blog post originally posted on babelgraph.org on March 25, 2011. The relevant hyperlinks and igraph code have been updated to reflect the current state of things. The edgelist, despite many more intervening seasons, and thus many more romances, has not been updated. Here is a nice walkthrough of ERGMs based on this post &amp;ndash; sorry for the broken link, Ben.
+This all began with an introductory presentation about social network analysis to a group of medical students.</description>
     </item>
     
   </channel>

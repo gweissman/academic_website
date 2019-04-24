@@ -394,6 +394,62 @@ plt.show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     </item>
     
     <item>
+      <title>Making choropleth maps by zip code</title>
+      <link>/post/making-choropleth-maps-by-zip-code/</link>
+      <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/making-choropleth-maps-by-zip-code/</guid>
+      <description>
+
+&lt;p&gt;Every now and then it is useful to make a map. In times of political uncertainty, data can light a path forward. Your local elected officals may be interested in data, too, and how they impact policy (and re-election, of course).&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say you wanted to know if people are still enrolling the &lt;em&gt;Healthcare.gov&lt;/em&gt; plans in your local State Senatorial district. It&amp;rsquo;s quite difficult to find data broken up at this level but zip codes can approximate such an approach. Here&amp;rsquo;s information from Pennsylvania 26th Senatorial District.&lt;/p&gt;
+
+&lt;h2 id=&#34;marketplace-enrollment&#34;&gt;Marketplace enrollment&lt;/h2&gt;
+
+&lt;p&gt;Using publicly available data from the Centers for Medicare &amp;amp; Medicaid Services, this file includes data by zip code on enrollment through &lt;a href=&#34;https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;HealthCare.gov&lt;/em&gt;&lt;/a&gt; The data description reads:&lt;/p&gt;
+
+&lt;p&gt;&amp;ldquo;2017 OEP ZIP Code-Level Public Use File: This ZIP code and APTC PUF includes total health plan selections, the count of consumers with APTC, and average APTC among consumers with APTC between November 1, 2016 and January 31, 2017. This PUF only includes data for the 39 states that used the HealthCare.gov platform in 2017.&amp;rdquo;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# setup&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;require&lt;/span&gt;(zipcode)
+&lt;span style=&#34;color:#00a&#34;&gt;library&lt;/span&gt;(readxl)
+&lt;span style=&#34;color:#00a&#34;&gt;require&lt;/span&gt;(dplyr)
+&lt;span style=&#34;color:#00a&#34;&gt;require&lt;/span&gt;(choroplethrZip)
+&lt;span style=&#34;color:#00a&#34;&gt;require&lt;/span&gt;(magrittr)
+
+
+data(zipcode)
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# download and extract this file: https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html&lt;/span&gt;
+
+dt &amp;lt;- read_excel(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;2017_OEP_ZIP_Code-Level_Public_Use_File.xlsx&amp;#39;&lt;/span&gt;, sheet = &lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;)
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# approximating the 26th district&lt;/span&gt;
+zips_26thsenate &amp;lt;- &lt;span style=&#34;color:#0aa&#34;&gt;c&lt;/span&gt;(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19029&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19081&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19082&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19078&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19036&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19033&amp;#39;&lt;/span&gt;, 
+                     &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19070&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19018&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19026&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19064&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19063&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19008&amp;#39;&lt;/span&gt;,
+                     &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19073&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19355&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19301&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19050&amp;#39;&lt;/span&gt;)
+
+dt %&amp;lt;&amp;gt;% select(ZipCode = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;ZIP Code&amp;#39;&lt;/span&gt;,
+               Enrollees = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;Total Number of Consumers Who Have Selected a Marketplace Plan&amp;#39;&lt;/span&gt;) %&amp;gt;% 
+  mutate(Enrollees = &lt;span style=&#34;color:#00a&#34;&gt;as.integer&lt;/span&gt;(Enrollees)) %&amp;gt;%
+  filter(ZipCode %in% zips_26thsenate) %&amp;gt;%
+  left_join(zipcode, by = &lt;span style=&#34;color:#0aa&#34;&gt;c&lt;/span&gt;(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;ZipCode&amp;#39;&lt;/span&gt; = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;zip&amp;#39;&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Summarize the results by zip:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;dt %&amp;gt;% 
+  select(ZipCode, City = city, Enrollees) %&amp;gt;%
+    arrange(desc(Enrollees)) %&amp;gt;% 
+    knitr::kable()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And plot the output:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;zipmap &amp;lt;- dt %&amp;gt;%
+  select(value = Enrollees, region = ZipCode) %&amp;gt;%
+  zip_choropleth(zip_zoom = zips_26thsenate, reference_map = &lt;span style=&#34;color:#00a&#34;&gt;TRUE&lt;/span&gt;,
+                 title = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;Healthcare.gov enrollees November 1, 2016 - January 21, 2017&amp;#39;&lt;/span&gt;)
+
+plot(zipmap)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/26th_district.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Grey’s Anatomy Network of Sexual Relations</title>
       <link>/post/grey-s-anatomy-network-of-sexual-relations/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>

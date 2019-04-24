@@ -9,13 +9,13 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+    <lastmod>2019-04-23T21:12:47-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2019-04-23T21:06:34-04:00</lastmod>
+    <lastmod>2019-04-23T21:12:47-04:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -94,24 +94,41 @@
   
   <url>
     <loc>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</loc>
-    <lastmod>2018-02-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-23T21:12:47-04:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/keras/</loc>
-    <lastmod>2018-02-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-23T21:12:47-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/python/</loc>
-    <lastmod>2018-02-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-23T21:12:47-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/rnn/</loc>
-    <lastmod>2018-02-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-23T21:12:47-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/making-choropleth-maps-by-zip-code/</loc>
+    <lastmod>2017-07-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2017-07-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/maps/</loc>
+    <lastmod>2017-07-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -27,11 +27,10 @@
   
     
   
-  <meta name="description" content="Here&rsquo;s the blog post originally posted on babelgraph.org on March 25, 2011. The relevant hyperlinks and igraph code have been updated to reflect the current state of things. The edgelist, despite many more intervening seasons, and thus many more romances, has not been updated. Here is a nice walkthrough of ERGMs based on this post &ndash; sorry for the broken link, Ben.
-This all began with an introductory presentation about social network analysis to a group of medical students.">
+  <meta name="description" content="">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/grey-s-anatomy-network-of-sexual-relations/">
+  <link rel="alternate" hreflang="en-us" href="/post/making-choropleth-maps-by-zip-code/">
 
   
 
@@ -103,7 +102,7 @@ This all began with an introductory presentation about social network analysis t
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/post/grey-s-anatomy-network-of-sexual-relations/">
+  <link rel="canonical" href="/post/making-choropleth-maps-by-zip-code/">
 
   
   
@@ -115,22 +114,21 @@ This all began with an introductory presentation about social network analysis t
   <meta property="twitter:card" content="summary">
   
   <meta property="og:site_name" content="Gary Weissman, MD, MSHP">
-  <meta property="og:url" content="/post/grey-s-anatomy-network-of-sexual-relations/">
-  <meta property="og:title" content="Grey’s Anatomy Network of Sexual Relations | Gary Weissman, MD, MSHP">
-  <meta property="og:description" content="Here&rsquo;s the blog post originally posted on babelgraph.org on March 25, 2011. The relevant hyperlinks and igraph code have been updated to reflect the current state of things. The edgelist, despite many more intervening seasons, and thus many more romances, has not been updated. Here is a nice walkthrough of ERGMs based on this post &ndash; sorry for the broken link, Ben.
-This all began with an introductory presentation about social network analysis to a group of medical students."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:url" content="/post/making-choropleth-maps-by-zip-code/">
+  <meta property="og:title" content="Making choropleth maps by zip code | Gary Weissman, MD, MSHP">
+  <meta property="og:description" content=""><meta property="og:image" content="/img/icon-192.png">
   <meta property="og:locale" content="en-us">
   
-  <meta property="article:published_time" content="2017-06-15T00:00:00&#43;00:00">
+  <meta property="article:published_time" content="2017-07-17T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2019-04-23T21:06:34-04:00">
-  
-
+  <meta property="article:modified_time" content="2017-07-17T00:00:00&#43;00:00">
   
 
   
 
-  <title>Grey’s Anatomy Network of Sexual Relations | Gary Weissman, MD, MSHP</title>
+  
+
+  <title>Making choropleth maps by zip code | Gary Weissman, MD, MSHP</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
@@ -349,7 +347,7 @@ This all began with an introductory presentation about social network analysis t
   
   
 <div class="article-container pt-3">
-  <h1 itemprop="name">Grey’s Anatomy Network of Sexual Relations</h1>
+  <h1 itemprop="name">Making choropleth maps by zip code</h1>
 
   
 
@@ -358,8 +356,8 @@ This all began with an introductory presentation about social network analysis t
 
 
 
-<meta content="2017-06-15 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-<meta content="2019-04-23 21:06:34 -0400 EDT" itemprop="dateModified">
+<meta content="2017-07-17 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+<meta content="2017-07-17 00:00:00 &#43;0000 UTC" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -371,10 +369,8 @@ This all began with an introductory presentation about social network analysis t
     
     
       
-          Last updated on
-      
     
-    <time>Apr 23, 2019</time>
+    <time>Jul 17, 2017</time>
   </span>
   
 
@@ -383,7 +379,7 @@ This all began with an introductory presentation about social network analysis t
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    4 min read
+    0 min read
   </span>
   
 
@@ -397,11 +393,9 @@ This all began with an introductory presentation about social network analysis t
   <span class="article-categories">
     <i class="fas fa-folder"></i>
     
-    <a href="/categories/babelgraph/">babelgraph</a>, 
+    <a href="/categories/r/">R</a>, 
     
-    <a href="/categories/blog/">blog</a>, 
-    
-    <a href="">social network analysis</a>
+    <a href="/categories/maps/">maps</a>
     
   </span>
   
@@ -439,63 +433,53 @@ This all began with an introductory presentation about social network analysis t
   <div class="article-container">
 
     <div class="article-style" itemprop="articleBody">
-      <p><em>Here&rsquo;s the blog post originally posted on <code>babelgraph.org</code> on March 25, 2011. The relevant hyperlinks and <code>igraph</code> code have been updated to reflect the current state of things. The edgelist, despite many more intervening seasons, and thus many more romances, has <strong>not</strong> been updated. Here is a <a href="http://badhessian.org/2012/09/lessons-on-exponential-random-graph-modeling-from-greys-anatomy-hook-ups/" target="_blank">nice walkthrough of ERGMs</a> based on this post &ndash; sorry for the broken link, Ben.</em></p>
+      
 
-<p>This all began with an introductory presentation about social network analysis to a group of medical students.  What better way to grab their attention than with attractive, fake doctors having sex on television?  Naturally this led to the dense network of sexual contacts between characters on the <a href="http://en.wikipedia.org/wiki/Grey%27s_Anatomy" target="_blank">Grey’s Anatomy television show</a>.  After viewing many hours of previous episodes and exploring fan pages (especially <a href="http://insanegrey.livejournal.com/72234.html" target="_blank">here</a> for an early attempt at a graph representation of sexual contacts), I was able to come up with an extensive but by no means exhaustive list of contacts.  The edge list is available <a href="/images/babelgraph/greys/ga_edgelist.csv">here</a>.</p>
+<p>Every now and then it is useful to make a map. In times of political uncertainty, data can light a path forward. Your local elected officals may be interested in data, too, and how they impact policy (and re-election, of course).</p>
 
-<p>This example uses the <a href="http://igraph.org/" target="_blank">igraph</a> package for <a href="http://www.r-project.org/" target="_blank">R</a>, both free to download. First we create the graph, give it a layout, and plot.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#00a">library</span>(igraph)
-ga.data &lt;- read.csv(<span style="color:#a50">&#39;ga_edgelist.csv&#39;</span>, header = <span style="color:#00a">TRUE</span>)
-g &lt;- graph.data.frame(ga.data, directed=<span style="color:#00a">FALSE</span>)
-<span style="color:#00a">summary</span>(g)
-g$layout &lt;- layout.fruchterman.reingold(g)
-plot(g)</code></pre></div>
-<p><img src="/images/babelgraph/greys/plot1.png" alt="" /></p>
+<p>Let&rsquo;s say you wanted to know if people are still enrolling the <em>Healthcare.gov</em> plans in your local State Senatorial district. It&rsquo;s quite difficult to find data broken up at this level but zip codes can approximate such an approach. Here&rsquo;s information from Pennsylvania 26th Senatorial District.</p>
 
-<p>Without knowing who is represented by each vertex, what can you deduce from the graph? From a public health perspective, if you could test one person for sexually transmitted infections (STIs), who would it be? If you could provide counseling and a free box of condoms to one person, who would it be? If you knew that an epidemic was spreading through this network, who would you want to be to best avoid it?</p>
+<h2 id="marketplace-enrollment">Marketplace enrollment</h2>
 
-<p>Now let’s make the visualization a little more interesting. First we can remove the labels for now, and then change the size of the vertex to represent the degree, or degree centrality, corresponding to the number of partners of each vertex. In the context of transmissible infections, this would indicate the number of people a person could infect or be infected by through sexual contact.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">V(g)$label &lt;- <span style="color:#00a">NA</span> <span style="color:#aaa;font-style:italic"># remove labels for now</span>
-V(g)$size &lt;- degree(g) * <span style="color:#099">2</span> <span style="color:#aaa;font-style:italic"># multiply by 2 for scale</span>
-plot(g)</code></pre></div>
-<p><img src="/images/babelgraph/greys/plot2.png" alt="" /></p>
+<p>Using publicly available data from the Centers for Medicare &amp; Medicaid Services, this file includes data by zip code on enrollment through <a href="https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html" target="_blank"><em>HealthCare.gov</em></a> The data description reads:</p>
 
-<p>This tells us about the absolute number of partners, but not much about the relative position within the network. Let’s examine two types of centrality: closeness and betweenness. The closeness centrality is the average shortest path from one vertex to every other on the graph. A high number indicates that a vertex is quickly reachable by the majority of vertices in the graph, while a low number indicates that the vertex is far from most other vertices on the graph. We can calculate the centrality and then rescale the values to create a color scheme to visualize the relative differences.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">clo &lt;- closeness(g)
-<span style="color:#aaa;font-style:italic"># rescale values to match the elements of a color vector</span>
-clo.score &lt;- <span style="color:#00a">round</span>( (clo - <span style="color:#00a">min</span>(clo)) * <span style="color:#00a">length</span>(clo) / <span style="color:#00a">max</span>(clo) ) + <span style="color:#099">1</span>
-<span style="color:#aaa;font-style:italic"># create color vector, use rev to make red &#34;hot&#34;</span>
-clo.colors &lt;- <span style="color:#00a">rev</span>(heat.colors(<span style="color:#00a">max</span>(clo.score)))
-V(g)$color &lt;- clo.colors[ clo.score ]
-plot(g)</code></pre></div>
-<p><img src="/images/babelgraph/greys/plot3.png" alt="" /></p>
+<p>&ldquo;2017 OEP ZIP Code-Level Public Use File: This ZIP code and APTC PUF includes total health plan selections, the count of consumers with APTC, and average APTC among consumers with APTC between November 1, 2016 and January 31, 2017. This PUF only includes data for the 39 states that used the HealthCare.gov platform in 2017.&rdquo;</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#aaa;font-style:italic"># setup</span>
+<span style="color:#00a">require</span>(zipcode)
+<span style="color:#00a">library</span>(readxl)
+<span style="color:#00a">require</span>(dplyr)
+<span style="color:#00a">require</span>(choroplethrZip)
+<span style="color:#00a">require</span>(magrittr)
 
-<p>It appears there are a few vertices on the red “hot” end of the spectrum, and a few at the “cold” end. Next we do the same for each vertex to calculate the betweenness centrality, which is the number of shortest paths on the network that pass through the vertex. Vertices with high betweenness centrality might be thought of as serving a gatekeeper role in mediating the shortest connections between other vertices.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw &lt;- betweenness(g)
-btw.score &lt;- <span style="color:#00a">round</span>(btw) + <span style="color:#099">1</span>
-btw.colors &lt;- <span style="color:#00a">rev</span>(heat.colors(<span style="color:#00a">max</span>(btw.score)))
-V(g)$color &lt;- btw.colors[ btw.score ]
-plot(g)</code></pre></div>
-<p><img src="/images/babelgraph/greys/plot4.png" alt="" /></p>
 
-<p>This last graph of betweenness indicates slightly more variation among the likely suspects, while the analysis of closeness centrality demonstrated less variation. Why?</p>
+data(zipcode)
+<span style="color:#aaa;font-style:italic"># download and extract this file: https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html</span>
 
-<p>A useful technique in social network analysis is the use of community finding algorithms. Here we use the implementation of the <a href="http://en.wikipedia.org/wiki/Girvan%E2%80%93Newman_algorithm" target="_blank">Girvan-Newman algorithm</a> (<a href="http://www.pnas.org/content/99/12/7821" target="_blank">paper here</a>) to detect the underlying community structure of the graph. We will iterate through each merge to determine which cut produces the maximum modularity, and then use that number to calculate the groups.</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#aaa;font-style:italic"># this section has been substantially revised to reflect the</span>
-<span style="color:#aaa;font-style:italic"># newer version of igraph which does GN membership easily</span>
-V(g)$color &lt;- membership(cluster_edge_betweenness(g))
-V(g)$size &lt;- <span style="color:#099">15</span> <span style="color:#aaa;font-style:italic"># reset to default size</span>
-plot(g) <span style="color:#aaa;font-style:italic"># those new default igraph colors are so much nicer, too!</span></code></pre></div>
-<p><img src="/images/babelgraph/greys/plot5.png" alt="" /></p>
+dt &lt;- read_excel(<span style="color:#a50">&#39;2017_OEP_ZIP_Code-Level_Public_Use_File.xlsx&#39;</span>, sheet = <span style="color:#099">4</span>)
 
-<p>Once you see the graph with names, it is interesting to note the breaks in connectivity around race and age (I guess you have to know the TV characters to appreciate this ;) ) So before seeing the names, back to the original question. Who would you test? Who would you counsel? Who would you vaccinate? Who would you rather be?</p>
+<span style="color:#aaa;font-style:italic"># approximating the 26th district</span>
+zips_26thsenate &lt;- <span style="color:#0aa">c</span>(<span style="color:#a50">&#39;19029&#39;</span>, <span style="color:#a50">&#39;19081&#39;</span>, <span style="color:#a50">&#39;19082&#39;</span>, <span style="color:#a50">&#39;19078&#39;</span>, <span style="color:#a50">&#39;19036&#39;</span>, <span style="color:#a50">&#39;19033&#39;</span>, 
+                     <span style="color:#a50">&#39;19070&#39;</span>, <span style="color:#a50">&#39;19018&#39;</span>, <span style="color:#a50">&#39;19026&#39;</span>, <span style="color:#a50">&#39;19064&#39;</span>, <span style="color:#a50">&#39;19063&#39;</span>, <span style="color:#a50">&#39;19008&#39;</span>,
+                     <span style="color:#a50">&#39;19073&#39;</span>, <span style="color:#a50">&#39;19355&#39;</span>, <span style="color:#a50">&#39;19301&#39;</span>, <span style="color:#a50">&#39;19050&#39;</span>)
 
-<p>And the winners are…</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">V(g)$color &lt;- <span style="color:#a50">&#39;grey&#39;</span>
-V(g)$label &lt;- V(g)$name
-V(g)$label.cex &lt;- <span style="color:#099">0.7</span> <span style="color:#aaa;font-style:italic"># rescale the text size of the label</span>
-plot(g)</code></pre></div>
-<p><img src="/images/babelgraph/greys/plot6.png" alt="" /></p>
+dt %&lt;&gt;% select(ZipCode = <span style="color:#a50">&#39;ZIP Code&#39;</span>,
+               Enrollees = <span style="color:#a50">&#39;Total Number of Consumers Who Have Selected a Marketplace Plan&#39;</span>) %&gt;% 
+  mutate(Enrollees = <span style="color:#00a">as.integer</span>(Enrollees)) %&gt;%
+  filter(ZipCode %in% zips_26thsenate) %&gt;%
+  left_join(zipcode, by = <span style="color:#0aa">c</span>(<span style="color:#a50">&#39;ZipCode&#39;</span> = <span style="color:#a50">&#39;zip&#39;</span>))</code></pre></div>
+<p>Summarize the results by zip:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">dt %&gt;% 
+  select(ZipCode, City = city, Enrollees) %&gt;%
+    arrange(desc(Enrollees)) %&gt;% 
+    knitr::kable()</code></pre></div>
+<p>And plot the output:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">zipmap &lt;- dt %&gt;%
+  select(value = Enrollees, region = ZipCode) %&gt;%
+  zip_choropleth(zip_zoom = zips_26thsenate, reference_map = <span style="color:#00a">TRUE</span>,
+                 title = <span style="color:#a50">&#39;Healthcare.gov enrollees November 1, 2016 - January 21, 2017&#39;</span>)
+
+plot(zipmap)</code></pre></div>
+<p><img src="/images/26th_district.png" alt="" /></p>
 
     </div>
 
