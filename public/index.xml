@@ -285,108 +285,120 @@ scaled_brier_score_1(df$rings &amp;gt; 3, preds_m2)&lt;/code&gt;&lt;/pre&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py&#34; target=&#34;_blank&#34;&gt;https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py&#34; target=&#34;_blank&#34;&gt;https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# setup&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;np&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;pandas&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;pd&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;math&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;plt&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;keras.models&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; Sequential
-&lt;span style=&#34;color:#00a&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;keras.layers&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; Dense, Dropout, SimpleRNN
-&lt;span style=&#34;color:#00a&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;keras.callbacks&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; EarlyStopping
-&lt;span style=&#34;color:#00a&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;sklearn.model_selection&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; train_test_split
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# make a sample multivariable time series - not autoregressive&lt;/span&gt;
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# generate a random walk&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#0a0&#34;&gt;random_walk&lt;/span&gt;(steps, scale = &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;):
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# setup
+import numpy as np
+import pandas as pd
+import math
+import matplotlib.pyplot as plt
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, SimpleRNN
+from keras.callbacks import EarlyStopping
+from sklearn.model_selection import train_test_split
+
+# make a sample multivariable time series - not autoregressive
+# generate a random walk
+def random_walk(steps, scale = 1):
     w = np.zeros(steps)
-    &lt;span style=&#34;color:#00a&#34;&gt;for&lt;/span&gt; x &lt;span style=&#34;color:#00a&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#0aa&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,steps):
-        w[x] = w[x-&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;] + scale * np.random.normal()
-    &lt;span style=&#34;color:#00a&#34;&gt;return&lt;/span&gt;(w)
+    for x in range(1,steps):
+        w[x] = w[x-1] + scale * np.random.normal()
+    return(w)
         
-time_steps = &lt;span style=&#34;color:#099&#34;&gt;5000&lt;/span&gt;
-data = pd.DataFrame({&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;x&amp;#39;&lt;/span&gt; : &lt;span style=&#34;color:#0aa&#34;&gt;range&lt;/span&gt;(time_steps), 
-    &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;y&amp;#39;&lt;/span&gt; : np.arange(time_steps) ** (&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;/&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;) + random_walk(time_steps) })
-data = data.assign(z = np.log(data.x+&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;) + &lt;span style=&#34;color:#099&#34;&gt;0.3&lt;/span&gt; * data.y)
-data_mat = np.array(data)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+time_steps = 5000
+data = pd.DataFrame({&#39;x&#39; : range(time_steps), 
+    &#39;y&#39; : np.arange(time_steps) ** (1/2) + random_walk(time_steps) })
+data = data.assign(z = np.log(data.x+1) + 0.3 * data.y)
+data_mat = np.array(data)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Take a look at the data.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;/images/rnn_data_explore.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;plt.subplot(&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;)
-plt.plot(data_mat[:,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;], data_mat[:,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;], c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;goldenrod&amp;#39;&lt;/span&gt;)
-plt.margins(&lt;span style=&#34;color:#099&#34;&gt;0.05&lt;/span&gt;)
-plt.subplot(&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;)
-plt.plot(data_mat[:,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;], data_mat[:,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;], c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;firebrick&amp;#39;&lt;/span&gt;)
-plt.margins(&lt;span style=&#34;color:#099&#34;&gt;0.05&lt;/span&gt;)
-plt.show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# split into samples (sliding time windows)&lt;/span&gt;
-samples = &lt;span style=&#34;color:#0aa&#34;&gt;list&lt;/span&gt;()
-target = &lt;span style=&#34;color:#0aa&#34;&gt;list&lt;/span&gt;()
-length = &lt;span style=&#34;color:#099&#34;&gt;50&lt;/span&gt;
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# step over the 5,000 in jumps of length&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#00a&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#0aa&#34;&gt;range&lt;/span&gt;(time_steps - length - &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;):
-  &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# grab from i to i + length&lt;/span&gt;
-    sample = data_mat[i:i+length,:&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;]
-    outcome = data_mat[i+length+&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;]
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;plt.subplot(2,1,1)
+plt.plot(data_mat[:,0], data_mat[:,2], c = &#39;goldenrod&#39;)
+plt.margins(0.05)
+plt.subplot(2,1,2)
+plt.plot(data_mat[:,1], data_mat[:,2], c = &#39;firebrick&#39;)
+plt.margins(0.05)
+plt.show()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# split into samples (sliding time windows)
+samples = list()
+target = list()
+length = 50
+
+# step over the 5,000 in jumps of length
+for i in range(time_steps - length - 1):
+  # grab from i to i + length
+    sample = data_mat[i:i+length,:2]
+    outcome = data_mat[i+length+1,2]
     target.append(outcome)
     samples.append(sample)
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# split out a test set&lt;/span&gt;
-test_size = &lt;span style=&#34;color:#099&#34;&gt;1000&lt;/span&gt;
+# split out a test set
+test_size = 1000
 x_test_mat = np.dstack(samples[-test_size:])
-x_test_3d_final = np.moveaxis(x_test_mat, [&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;], [&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;] )
+x_test_3d_final = np.moveaxis(x_test_mat, [0, 1, 2], [1, 2, 0] )
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# The RNN needs data with the format of [samples, time steps, features].&lt;/span&gt;
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# Here, we have N samples, 50 time steps per sample, and 2 features&lt;/span&gt;
+# The RNN needs data with the format of [samples, time steps, features].
+# Here, we have N samples, 50 time steps per sample, and 2 features
 data_mat_stacked = np.dstack(samples[:-test_size])
-data_mat_3d_final = np.moveaxis(data_mat_stacked, [&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;], [&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;] )
+data_mat_3d_final = np.moveaxis(data_mat_stacked, [0, 1, 2], [1, 2, 0] )
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# and fix up the target&lt;/span&gt;
+# and fix up the target
 target_arr = np.array(target[:-test_size])
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# now build the RNN&lt;/span&gt;
+# now build the RNN
 model = Sequential()
-model.add(SimpleRNN(&lt;span style=&#34;color:#099&#34;&gt;128&lt;/span&gt;, input_shape = (data_mat_3d_final.shape[&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;],
-    data_mat_3d_final.shape[&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;]), activation = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;relu&amp;#39;&lt;/span&gt;))
-model.add(Dropout(&lt;span style=&#34;color:#099&#34;&gt;0.1&lt;/span&gt;))
-model.add(Dense(&lt;span style=&#34;color:#099&#34;&gt;64&lt;/span&gt;, activation = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;relu&amp;#39;&lt;/span&gt;))
-model.add(Dropout(&lt;span style=&#34;color:#099&#34;&gt;0.1&lt;/span&gt;))
-model.add(Dense(&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;, activation = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;relu&amp;#39;&lt;/span&gt;))
-model.add(Dropout(&lt;span style=&#34;color:#099&#34;&gt;0.1&lt;/span&gt;))
-model.add(Dense(&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, activation=&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;linear&amp;#39;&lt;/span&gt;))
+model.add(SimpleRNN(128, input_shape = (data_mat_3d_final.shape[1],
+    data_mat_3d_final.shape[2]), activation = &#39;relu&#39;))
+model.add(Dropout(0.1))
+model.add(Dense(64, activation = &#39;relu&#39;))
+model.add(Dropout(0.1))
+model.add(Dense(16, activation = &#39;relu&#39;))
+model.add(Dropout(0.1))
+model.add(Dense(1, activation=&#39;linear&#39;))
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# monitor validation progress&lt;/span&gt;
-early = EarlyStopping(monitor = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;val_loss&amp;#34;&lt;/span&gt;, mode = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;min&amp;#34;&lt;/span&gt;, patience = &lt;span style=&#34;color:#099&#34;&gt;7&lt;/span&gt;)
+# monitor validation progress
+early = EarlyStopping(monitor = &amp;quot;val_loss&amp;quot;, mode = &amp;quot;min&amp;quot;, patience = 7)
 callbacks_list = [early]
     
-model.&lt;span style=&#34;color:#0aa&#34;&gt;compile&lt;/span&gt;(loss = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;mean_squared_error&amp;#39;&lt;/span&gt;,
-              optimizer = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;adam&amp;#39;&lt;/span&gt;,
-              metrics = [&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;mse&amp;#39;&lt;/span&gt;])
+model.compile(loss = &#39;mean_squared_error&#39;,
+              optimizer = &#39;adam&#39;,
+              metrics = [&#39;mse&#39;])
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# and train the model&lt;/span&gt;
+# and train the model
 history = model.fit(data_mat_3d_final, target_arr, 
-    epochs=&lt;span style=&#34;color:#099&#34;&gt;50&lt;/span&gt;, batch_size=&lt;span style=&#34;color:#099&#34;&gt;25&lt;/span&gt;, verbose=&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;, 
-    validation_split = &lt;span style=&#34;color:#099&#34;&gt;0.20&lt;/span&gt;,
+    epochs=50, batch_size=25, verbose=2, 
+    validation_split = 0.20,
     callbacks = callbacks_list)
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# plot history&lt;/span&gt;
-plt.plot(history.history[&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;loss&amp;#39;&lt;/span&gt;], label=&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;train&amp;#39;&lt;/span&gt;)
-plt.plot(history.history[&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;val_loss&amp;#39;&lt;/span&gt;], label=&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;val&amp;#39;&lt;/span&gt;)
+# plot history
+plt.plot(history.history[&#39;loss&#39;], label=&#39;train&#39;)
+plt.plot(history.history[&#39;val_loss&#39;], label=&#39;val&#39;)
 plt.legend()
-plt.show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+plt.show()
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/rnn_train_history.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# get predictions&lt;/span&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# get predictions
 train_predictions = model.predict(data_mat_3d_final)
 test_predictions = model.predict(x_test_3d_final)
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# plot predictions vs actual&lt;/span&gt;
-plt.plot(data[&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;x&amp;#39;&lt;/span&gt;], 
-    data[&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;z&amp;#39;&lt;/span&gt;], c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;goldenrod&amp;#39;&lt;/span&gt;, label = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;data&amp;#39;&lt;/span&gt;)
-plt.plot(data.iloc[(length+&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;):-test_size][&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;x&amp;#39;&lt;/span&gt;], 
-    train_predictions, c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;navy&amp;#39;&lt;/span&gt;, label = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;train&amp;#39;&lt;/span&gt;)
-plt.plot(data.iloc[-test_size:][&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;x&amp;#39;&lt;/span&gt;], 
-    test_predictions, c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;firebrick&amp;#39;&lt;/span&gt;, label = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;test&amp;#39;&lt;/span&gt;)
-plt.legend(loc=&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;best&amp;#39;&lt;/span&gt;)
-plt.show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+# plot predictions vs actual
+plt.plot(data[&#39;x&#39;], 
+    data[&#39;z&#39;], c = &#39;goldenrod&#39;, label = &#39;data&#39;)
+plt.plot(data.iloc[(length+1):-test_size][&#39;x&#39;], 
+    train_predictions, c = &#39;navy&#39;, label = &#39;train&#39;)
+plt.plot(data.iloc[-test_size:][&#39;x&#39;], 
+    test_predictions, c = &#39;firebrick&#39;, label = &#39;test&#39;)
+plt.legend(loc=&#39;best&#39;)
+plt.show()
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/rnn_times_series_predictions.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Not bad!&lt;/p&gt;
@@ -410,41 +422,51 @@ plt.show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Using publicly available data from the Centers for Medicare &amp;amp; Medicaid Services, this file includes data by zip code on enrollment through &lt;a href=&#34;https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;HealthCare.gov&lt;/em&gt;&lt;/a&gt; The data description reads:&lt;/p&gt;
 
 &lt;p&gt;&amp;ldquo;2017 OEP ZIP Code-Level Public Use File: This ZIP code and APTC PUF includes total health plan selections, the count of consumers with APTC, and average APTC among consumers with APTC between November 1, 2016 and January 31, 2017. This PUF only includes data for the 39 states that used the HealthCare.gov platform in 2017.&amp;rdquo;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# setup&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;require&lt;/span&gt;(zipcode)
-&lt;span style=&#34;color:#00a&#34;&gt;library&lt;/span&gt;(readxl)
-&lt;span style=&#34;color:#00a&#34;&gt;require&lt;/span&gt;(dplyr)
-&lt;span style=&#34;color:#00a&#34;&gt;require&lt;/span&gt;(choroplethrZip)
-&lt;span style=&#34;color:#00a&#34;&gt;require&lt;/span&gt;(magrittr)
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# setup
+require(zipcode)
+library(readxl)
+require(dplyr)
+require(choroplethrZip)
+require(magrittr)
 
 
 data(zipcode)
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# download and extract this file: https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html&lt;/span&gt;
+# download and extract this file: https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html
 
-dt &amp;lt;- read_excel(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;2017_OEP_ZIP_Code-Level_Public_Use_File.xlsx&amp;#39;&lt;/span&gt;, sheet = &lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;)
+dt &amp;lt;- read_excel(&#39;2017_OEP_ZIP_Code-Level_Public_Use_File.xlsx&#39;, sheet = 4)
 
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# approximating the 26th district&lt;/span&gt;
-zips_26thsenate &amp;lt;- &lt;span style=&#34;color:#0aa&#34;&gt;c&lt;/span&gt;(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19029&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19081&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19082&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19078&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19036&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19033&amp;#39;&lt;/span&gt;, 
-                     &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19070&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19018&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19026&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19064&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19063&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19008&amp;#39;&lt;/span&gt;,
-                     &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19073&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19355&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19301&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;19050&amp;#39;&lt;/span&gt;)
+# approximating the 26th district
+zips_26thsenate &amp;lt;- c(&#39;19029&#39;, &#39;19081&#39;, &#39;19082&#39;, &#39;19078&#39;, &#39;19036&#39;, &#39;19033&#39;, 
+                     &#39;19070&#39;, &#39;19018&#39;, &#39;19026&#39;, &#39;19064&#39;, &#39;19063&#39;, &#39;19008&#39;,
+                     &#39;19073&#39;, &#39;19355&#39;, &#39;19301&#39;, &#39;19050&#39;)
 
-dt %&amp;lt;&amp;gt;% select(ZipCode = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;ZIP Code&amp;#39;&lt;/span&gt;,
-               Enrollees = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;Total Number of Consumers Who Have Selected a Marketplace Plan&amp;#39;&lt;/span&gt;) %&amp;gt;% 
-  mutate(Enrollees = &lt;span style=&#34;color:#00a&#34;&gt;as.integer&lt;/span&gt;(Enrollees)) %&amp;gt;%
+dt %&amp;lt;&amp;gt;% select(ZipCode = &#39;ZIP Code&#39;,
+               Enrollees = &#39;Total Number of Consumers Who Have Selected a Marketplace Plan&#39;) %&amp;gt;% 
+  mutate(Enrollees = as.integer(Enrollees)) %&amp;gt;%
   filter(ZipCode %in% zips_26thsenate) %&amp;gt;%
-  left_join(zipcode, by = &lt;span style=&#34;color:#0aa&#34;&gt;c&lt;/span&gt;(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;ZipCode&amp;#39;&lt;/span&gt; = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;zip&amp;#39;&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  left_join(zipcode, by = c(&#39;ZipCode&#39; = &#39;zip&#39;))
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Summarize the results by zip:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;dt %&amp;gt;% 
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dt %&amp;gt;% 
   select(ZipCode, City = city, Enrollees) %&amp;gt;%
     arrange(desc(Enrollees)) %&amp;gt;% 
-    knitr::kable()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;And plot the output:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;zipmap &amp;lt;- dt %&amp;gt;%
-  select(value = Enrollees, region = ZipCode) %&amp;gt;%
-  zip_choropleth(zip_zoom = zips_26thsenate, reference_map = &lt;span style=&#34;color:#00a&#34;&gt;TRUE&lt;/span&gt;,
-                 title = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;Healthcare.gov enrollees November 1, 2016 - January 21, 2017&amp;#39;&lt;/span&gt;)
+    knitr::kable()
+&lt;/code&gt;&lt;/pre&gt;
 
-plot(zipmap)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And plot the output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;
+zipmap &amp;lt;- dt %&amp;gt;%
+  select(value = Enrollees, region = ZipCode) %&amp;gt;%
+  zip_choropleth(zip_zoom = zips_26thsenate, reference_map = TRUE,
+                 title = &#39;Healthcare.gov enrollees November 1, 2016 - January 21, 2017&#39;)
+
+plot(zipmap)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/26th_district.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
@@ -460,57 +482,75 @@ plot(zipmap)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This all began with an introductory presentation about social network analysis to a group of medical students.  What better way to grab their attention than with attractive, fake doctors having sex on television?  Naturally this led to the dense network of sexual contacts between characters on the &lt;a href=&#34;http://en.wikipedia.org/wiki/Grey%27s_Anatomy&#34; target=&#34;_blank&#34;&gt;Grey’s Anatomy television show&lt;/a&gt;.  After viewing many hours of previous episodes and exploring fan pages (especially &lt;a href=&#34;http://insanegrey.livejournal.com/72234.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for an early attempt at a graph representation of sexual contacts), I was able to come up with an extensive but by no means exhaustive list of contacts.  The edge list is available &lt;a href=&#34;/images/babelgraph/greys/ga_edgelist.csv&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;This example uses the &lt;a href=&#34;http://igraph.org/&#34; target=&#34;_blank&#34;&gt;igraph&lt;/a&gt; package for &lt;a href=&#34;http://www.r-project.org/&#34; target=&#34;_blank&#34;&gt;R&lt;/a&gt;, both free to download. First we create the graph, give it a layout, and plot.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;color:#00a&#34;&gt;library&lt;/span&gt;(igraph)
-ga.data &amp;lt;- read.csv(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;ga_edgelist.csv&amp;#39;&lt;/span&gt;, header = &lt;span style=&#34;color:#00a&#34;&gt;TRUE&lt;/span&gt;)
-g &amp;lt;- graph.data.frame(ga.data, directed=&lt;span style=&#34;color:#00a&#34;&gt;FALSE&lt;/span&gt;)
-&lt;span style=&#34;color:#00a&#34;&gt;summary&lt;/span&gt;(g)
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(igraph)
+ga.data &amp;lt;- read.csv(&#39;ga_edgelist.csv&#39;, header = TRUE)
+g &amp;lt;- graph.data.frame(ga.data, directed=FALSE)
+summary(g)
 g$layout &amp;lt;- layout.fruchterman.reingold(g)
-plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+plot(g)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Without knowing who is represented by each vertex, what can you deduce from the graph? From a public health perspective, if you could test one person for sexually transmitted infections (STIs), who would it be? If you could provide counseling and a free box of condoms to one person, who would it be? If you knew that an epidemic was spreading through this network, who would you want to be to best avoid it?&lt;/p&gt;
 
 &lt;p&gt;Now let’s make the visualization a little more interesting. First we can remove the labels for now, and then change the size of the vertex to represent the degree, or degree centrality, corresponding to the number of partners of each vertex. In the context of transmissible infections, this would indicate the number of people a person could infect or be infected by through sexual contact.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;V(g)$label &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;NA&lt;/span&gt; &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# remove labels for now&lt;/span&gt;
-V(g)$size &amp;lt;- degree(g) * &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# multiply by 2 for scale&lt;/span&gt;
-plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;V(g)$label &amp;lt;- NA # remove labels for now
+V(g)$size &amp;lt;- degree(g) * 2 # multiply by 2 for scale
+plot(g)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This tells us about the absolute number of partners, but not much about the relative position within the network. Let’s examine two types of centrality: closeness and betweenness. The closeness centrality is the average shortest path from one vertex to every other on the graph. A high number indicates that a vertex is quickly reachable by the majority of vertices in the graph, while a low number indicates that the vertex is far from most other vertices on the graph. We can calculate the centrality and then rescale the values to create a color scheme to visualize the relative differences.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;clo &amp;lt;- closeness(g)
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# rescale values to match the elements of a color vector&lt;/span&gt;
-clo.score &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;round&lt;/span&gt;( (clo - &lt;span style=&#34;color:#00a&#34;&gt;min&lt;/span&gt;(clo)) * &lt;span style=&#34;color:#00a&#34;&gt;length&lt;/span&gt;(clo) / &lt;span style=&#34;color:#00a&#34;&gt;max&lt;/span&gt;(clo) ) + &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# create color vector, use rev to make red &amp;#34;hot&amp;#34;&lt;/span&gt;
-clo.colors &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;rev&lt;/span&gt;(heat.colors(&lt;span style=&#34;color:#00a&#34;&gt;max&lt;/span&gt;(clo.score)))
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;clo &amp;lt;- closeness(g)
+# rescale values to match the elements of a color vector
+clo.score &amp;lt;- round( (clo - min(clo)) * length(clo) / max(clo) ) + 1
+# create color vector, use rev to make red &amp;quot;hot&amp;quot;
+clo.colors &amp;lt;- rev(heat.colors(max(clo.score)))
 V(g)$color &amp;lt;- clo.colors[ clo.score ]
-plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+plot(g)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot3.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;It appears there are a few vertices on the red “hot” end of the spectrum, and a few at the “cold” end. Next we do the same for each vertex to calculate the betweenness centrality, which is the number of shortest paths on the network that pass through the vertex. Vertices with high betweenness centrality might be thought of as serving a gatekeeper role in mediating the shortest connections between other vertices.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;btw &amp;lt;- betweenness(g)
-btw.score &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;round&lt;/span&gt;(btw) + &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;
-btw.colors &amp;lt;- &lt;span style=&#34;color:#00a&#34;&gt;rev&lt;/span&gt;(heat.colors(&lt;span style=&#34;color:#00a&#34;&gt;max&lt;/span&gt;(btw.score)))
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;btw &amp;lt;- betweenness(g)
+btw.score &amp;lt;- round(btw) + 1
+btw.colors &amp;lt;- rev(heat.colors(max(btw.score)))
 V(g)$color &amp;lt;- btw.colors[ btw.score ]
-plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+plot(g)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot4.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This last graph of betweenness indicates slightly more variation among the likely suspects, while the analysis of closeness centrality demonstrated less variation. Why?&lt;/p&gt;
 
 &lt;p&gt;A useful technique in social network analysis is the use of community finding algorithms. Here we use the implementation of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Girvan%E2%80%93Newman_algorithm&#34; target=&#34;_blank&#34;&gt;Girvan-Newman algorithm&lt;/a&gt; (&lt;a href=&#34;http://www.pnas.org/content/99/12/7821&#34; target=&#34;_blank&#34;&gt;paper here&lt;/a&gt;) to detect the underlying community structure of the graph. We will iterate through each merge to determine which cut produces the maximum modularity, and then use that number to calculate the groups.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# this section has been substantially revised to reflect the&lt;/span&gt;
-&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# newer version of igraph which does GN membership easily&lt;/span&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# this section has been substantially revised to reflect the
+# newer version of igraph which does GN membership easily
 V(g)$color &amp;lt;- membership(cluster_edge_betweenness(g))
-V(g)$size &amp;lt;- &lt;span style=&#34;color:#099&#34;&gt;15&lt;/span&gt; &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# reset to default size&lt;/span&gt;
-plot(g) &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# those new default igraph colors are so much nicer, too!&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+V(g)$size &amp;lt;- 15 # reset to default size
+plot(g) # those new default igraph colors are so much nicer, too!
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot5.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Once you see the graph with names, it is interesting to note the breaks in connectivity around race and age (I guess you have to know the TV characters to appreciate this ;) ) So before seeing the names, back to the original question. Who would you test? Who would you counsel? Who would you vaccinate? Who would you rather be?&lt;/p&gt;
 
 &lt;p&gt;And the winners are…&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;V(g)$color &amp;lt;- &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;V(g)$color &amp;lt;- &#39;grey&#39;
 V(g)$label &amp;lt;- V(g)$name
-V(g)$label.cex &amp;lt;- &lt;span style=&#34;color:#099&#34;&gt;0.7&lt;/span&gt; &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# rescale the text size of the label&lt;/span&gt;
-plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+V(g)$label.cex &amp;lt;- 0.7 # rescale the text size of the label
+plot(g)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;img src=&#34;/images/babelgraph/greys/plot6.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
@@ -616,9 +656,12 @@ plot(g)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Inline code: &lt;code&gt;variable&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Code block:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;porridge = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;blueberry&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#00a&#34;&gt;if&lt;/span&gt; porridge == &lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;blueberry&amp;#34;&lt;/span&gt;:
-    &lt;span style=&#34;color:#00a&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;Eating...&amp;#34;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;porridge = &amp;quot;blueberry&amp;quot;
+if porridge == &amp;quot;blueberry&amp;quot;:
+    print(&amp;quot;Eating...&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;hr /&gt;
 
 &lt;h2 id=&#34;math&#34;&gt;Math&lt;/h2&gt;
@@ -668,10 +711,13 @@ $$&lt;/p&gt;
 &lt;h2 id=&#34;speaker-notes&#34;&gt;Speaker Notes&lt;/h2&gt;
 
 &lt;p&gt;Add speaker notes to your presentation&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;{{% speaker_note %}}
-&lt;span style=&#34;color:#00a&#34;&gt;-&lt;/span&gt; Only the speaker can read these notes
-&lt;span style=&#34;color:#00a&#34;&gt;-&lt;/span&gt; Press &lt;span style=&#34;color:#a50&#34;&gt;`S`&lt;/span&gt; key to view
-{{% /speaker_note %}}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{% speaker_note %}}
+- Only the speaker can read these notes
+- Press `S` key to view
+{{% /speaker_note %}}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Press the &lt;code&gt;S&lt;/code&gt; key to view the speaker notes!&lt;/p&gt;
 
 &lt;aside class=&#34;notes&#34;&gt;
@@ -715,9 +761,12 @@ $$&lt;/p&gt;
 &lt;h2 id=&#34;custom-slide&#34;&gt;Custom Slide&lt;/h2&gt;
 
 &lt;p&gt;Customize the slide style and background&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;{{&amp;lt; slide background-image=&amp;#34;/img/boards.jpg&amp;#34; &amp;gt;}}
-{{&amp;lt; slide background-color=&amp;#34;#0000FF&amp;#34; &amp;gt;}}
-{{&amp;lt; slide class=&amp;#34;my-style&amp;#34; &amp;gt;}}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{&amp;lt; slide background-image=&amp;quot;/img/boards.jpg&amp;quot; &amp;gt;}}
+{{&amp;lt; slide background-color=&amp;quot;#0000FF&amp;quot; &amp;gt;}}
+{{&amp;lt; slide class=&amp;quot;my-style&amp;quot; &amp;gt;}}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;hr /&gt;
 
 &lt;h2 id=&#34;custom-css-example&#34;&gt;Custom CSS Example&lt;/h2&gt;
@@ -725,11 +774,14 @@ $$&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s make headers navy colored.&lt;/p&gt;
 
 &lt;p&gt;Create &lt;code&gt;assets/css/reveal_custom.css&lt;/code&gt; with:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-css&#34; data-lang=&#34;css&#34;&gt;.&lt;span style=&#34;color:#0a0;text-decoration:underline&#34;&gt;reveal&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;section&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;h1&lt;/span&gt;,
-.&lt;span style=&#34;color:#0a0;text-decoration:underline&#34;&gt;reveal&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;section&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;h2&lt;/span&gt;,
-.&lt;span style=&#34;color:#0a0;text-decoration:underline&#34;&gt;reveal&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;section&lt;/span&gt; &lt;span style=&#34;color:#1e90ff;font-weight:bold&#34;&gt;h3&lt;/span&gt; {
-  &lt;span style=&#34;color:#00a&#34;&gt;color&lt;/span&gt;: &lt;span style=&#34;color:#00a&#34;&gt;navy&lt;/span&gt;;
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-css&#34;&gt;.reveal section h1,
+.reveal section h2,
+.reveal section h3 {
+  color: navy;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;hr /&gt;
 
 &lt;h1 id=&#34;questions&#34;&gt;Questions?&lt;/h1&gt;

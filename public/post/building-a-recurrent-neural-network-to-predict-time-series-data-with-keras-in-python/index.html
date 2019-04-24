@@ -27,7 +27,9 @@
   
     
   
-  <meta name="description" content="">
+  <meta name="description" content="Recurrent neural networks and their variants are helpful for extracting information from time series. Here&rsquo;s an example using sample data to get up and running.
+I found the following other websites helpful in reading up on code examples:
+ https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/ https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py  # setup import numpy as np import pandas as pd import math import matplotlib.pyplot as plt from keras.models import Sequential from keras.layers import Dense, Dropout, SimpleRNN from keras.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/">
@@ -50,7 +52,7 @@
   
   
   
-  <meta name="theme-color" content="#2962ff">
+  <meta name="theme-color" content="#795548">
   
 
   
@@ -71,10 +73,8 @@
     
       
       
-        
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-dark" disabled>
       
     
 
@@ -113,10 +113,15 @@
   
   <meta property="twitter:card" content="summary">
   
+  <meta property="twitter:site" content="@garyweissman">
+  <meta property="twitter:creator" content="@garyweissman">
+  
   <meta property="og:site_name" content="Gary Weissman, MD, MSHP">
   <meta property="og:url" content="/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/">
   <meta property="og:title" content="Building a recurrent neural network to predict time-series data with Keras in Python | Gary Weissman, MD, MSHP">
-  <meta property="og:description" content=""><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="Recurrent neural networks and their variants are helpful for extracting information from time series. Here&rsquo;s an example using sample data to get up and running.
+I found the following other websites helpful in reading up on code examples:
+ https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/ https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py  # setup import numpy as np import pandas as pd import math import matplotlib.pyplot as plt from keras.models import Sequential from keras.layers import Dense, Dropout, SimpleRNN from keras."><meta property="og:image" content="/img/icon-192.png">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2018-02-15T00:00:00&#43;00:00">
@@ -381,7 +386,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    0 min read
+    2 min read
   </span>
   
 
@@ -446,108 +451,120 @@
 <li><a href="https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py" target="_blank">https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py</a></li>
 <li><a href="https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py" target="_blank">https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py</a></li>
 </ul>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#aaa;font-style:italic"># setup</span>
-<span style="color:#00a">import</span> <span style="color:#0aa;text-decoration:underline">numpy</span> <span style="color:#00a">as</span> <span style="color:#0aa;text-decoration:underline">np</span>
-<span style="color:#00a">import</span> <span style="color:#0aa;text-decoration:underline">pandas</span> <span style="color:#00a">as</span> <span style="color:#0aa;text-decoration:underline">pd</span>
-<span style="color:#00a">import</span> <span style="color:#0aa;text-decoration:underline">math</span>
-<span style="color:#00a">import</span> <span style="color:#0aa;text-decoration:underline">matplotlib.pyplot</span> <span style="color:#00a">as</span> <span style="color:#0aa;text-decoration:underline">plt</span>
-<span style="color:#00a">from</span> <span style="color:#0aa;text-decoration:underline">keras.models</span> <span style="color:#00a">import</span> Sequential
-<span style="color:#00a">from</span> <span style="color:#0aa;text-decoration:underline">keras.layers</span> <span style="color:#00a">import</span> Dense, Dropout, SimpleRNN
-<span style="color:#00a">from</span> <span style="color:#0aa;text-decoration:underline">keras.callbacks</span> <span style="color:#00a">import</span> EarlyStopping
-<span style="color:#00a">from</span> <span style="color:#0aa;text-decoration:underline">sklearn.model_selection</span> <span style="color:#00a">import</span> train_test_split
 
-<span style="color:#aaa;font-style:italic"># make a sample multivariable time series - not autoregressive</span>
-<span style="color:#aaa;font-style:italic"># generate a random walk</span>
-<span style="color:#00a">def</span> <span style="color:#0a0">random_walk</span>(steps, scale = <span style="color:#099">1</span>):
+<pre><code class="language-python"># setup
+import numpy as np
+import pandas as pd
+import math
+import matplotlib.pyplot as plt
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, SimpleRNN
+from keras.callbacks import EarlyStopping
+from sklearn.model_selection import train_test_split
+
+# make a sample multivariable time series - not autoregressive
+# generate a random walk
+def random_walk(steps, scale = 1):
     w = np.zeros(steps)
-    <span style="color:#00a">for</span> x <span style="color:#00a">in</span> <span style="color:#0aa">range</span>(<span style="color:#099">1</span>,steps):
-        w[x] = w[x-<span style="color:#099">1</span>] + scale * np.random.normal()
-    <span style="color:#00a">return</span>(w)
+    for x in range(1,steps):
+        w[x] = w[x-1] + scale * np.random.normal()
+    return(w)
         
-time_steps = <span style="color:#099">5000</span>
-data = pd.DataFrame({<span style="color:#a50">&#39;x&#39;</span> : <span style="color:#0aa">range</span>(time_steps), 
-    <span style="color:#a50">&#39;y&#39;</span> : np.arange(time_steps) ** (<span style="color:#099">1</span>/<span style="color:#099">2</span>) + random_walk(time_steps) })
-data = data.assign(z = np.log(data.x+<span style="color:#099">1</span>) + <span style="color:#099">0.3</span> * data.y)
-data_mat = np.array(data)</code></pre></div>
+time_steps = 5000
+data = pd.DataFrame({'x' : range(time_steps), 
+    'y' : np.arange(time_steps) ** (1/2) + random_walk(time_steps) })
+data = data.assign(z = np.log(data.x+1) + 0.3 * data.y)
+data_mat = np.array(data)
+</code></pre>
+
 <p>Take a look at the data.</p>
 
 <p><img src="/images/rnn_data_explore.png" alt="" /></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt.subplot(<span style="color:#099">2</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>)
-plt.plot(data_mat[:,<span style="color:#099">0</span>], data_mat[:,<span style="color:#099">2</span>], c = <span style="color:#a50">&#39;goldenrod&#39;</span>)
-plt.margins(<span style="color:#099">0.05</span>)
-plt.subplot(<span style="color:#099">2</span>,<span style="color:#099">1</span>,<span style="color:#099">2</span>)
-plt.plot(data_mat[:,<span style="color:#099">1</span>], data_mat[:,<span style="color:#099">2</span>], c = <span style="color:#a50">&#39;firebrick&#39;</span>)
-plt.margins(<span style="color:#099">0.05</span>)
-plt.show()</code></pre></div><div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#aaa;font-style:italic"># split into samples (sliding time windows)</span>
-samples = <span style="color:#0aa">list</span>()
-target = <span style="color:#0aa">list</span>()
-length = <span style="color:#099">50</span>
 
-<span style="color:#aaa;font-style:italic"># step over the 5,000 in jumps of length</span>
-<span style="color:#00a">for</span> i <span style="color:#00a">in</span> <span style="color:#0aa">range</span>(time_steps - length - <span style="color:#099">1</span>):
-  <span style="color:#aaa;font-style:italic"># grab from i to i + length</span>
-    sample = data_mat[i:i+length,:<span style="color:#099">2</span>]
-    outcome = data_mat[i+length+<span style="color:#099">1</span>,<span style="color:#099">2</span>]
+<pre><code class="language-python">plt.subplot(2,1,1)
+plt.plot(data_mat[:,0], data_mat[:,2], c = 'goldenrod')
+plt.margins(0.05)
+plt.subplot(2,1,2)
+plt.plot(data_mat[:,1], data_mat[:,2], c = 'firebrick')
+plt.margins(0.05)
+plt.show()
+</code></pre>
+
+<pre><code class="language-python"># split into samples (sliding time windows)
+samples = list()
+target = list()
+length = 50
+
+# step over the 5,000 in jumps of length
+for i in range(time_steps - length - 1):
+  # grab from i to i + length
+    sample = data_mat[i:i+length,:2]
+    outcome = data_mat[i+length+1,2]
     target.append(outcome)
     samples.append(sample)
 
-<span style="color:#aaa;font-style:italic"># split out a test set</span>
-test_size = <span style="color:#099">1000</span>
+# split out a test set
+test_size = 1000
 x_test_mat = np.dstack(samples[-test_size:])
-x_test_3d_final = np.moveaxis(x_test_mat, [<span style="color:#099">0</span>, <span style="color:#099">1</span>, <span style="color:#099">2</span>], [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">0</span>] )
+x_test_3d_final = np.moveaxis(x_test_mat, [0, 1, 2], [1, 2, 0] )
 
-<span style="color:#aaa;font-style:italic"># The RNN needs data with the format of [samples, time steps, features].</span>
-<span style="color:#aaa;font-style:italic"># Here, we have N samples, 50 time steps per sample, and 2 features</span>
+# The RNN needs data with the format of [samples, time steps, features].
+# Here, we have N samples, 50 time steps per sample, and 2 features
 data_mat_stacked = np.dstack(samples[:-test_size])
-data_mat_3d_final = np.moveaxis(data_mat_stacked, [<span style="color:#099">0</span>, <span style="color:#099">1</span>, <span style="color:#099">2</span>], [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">0</span>] )
+data_mat_3d_final = np.moveaxis(data_mat_stacked, [0, 1, 2], [1, 2, 0] )
 
-<span style="color:#aaa;font-style:italic"># and fix up the target</span>
+# and fix up the target
 target_arr = np.array(target[:-test_size])
 
-<span style="color:#aaa;font-style:italic"># now build the RNN</span>
+# now build the RNN
 model = Sequential()
-model.add(SimpleRNN(<span style="color:#099">128</span>, input_shape = (data_mat_3d_final.shape[<span style="color:#099">1</span>],
-    data_mat_3d_final.shape[<span style="color:#099">2</span>]), activation = <span style="color:#a50">&#39;relu&#39;</span>))
-model.add(Dropout(<span style="color:#099">0.1</span>))
-model.add(Dense(<span style="color:#099">64</span>, activation = <span style="color:#a50">&#39;relu&#39;</span>))
-model.add(Dropout(<span style="color:#099">0.1</span>))
-model.add(Dense(<span style="color:#099">16</span>, activation = <span style="color:#a50">&#39;relu&#39;</span>))
-model.add(Dropout(<span style="color:#099">0.1</span>))
-model.add(Dense(<span style="color:#099">1</span>, activation=<span style="color:#a50">&#39;linear&#39;</span>))
+model.add(SimpleRNN(128, input_shape = (data_mat_3d_final.shape[1],
+    data_mat_3d_final.shape[2]), activation = 'relu'))
+model.add(Dropout(0.1))
+model.add(Dense(64, activation = 'relu'))
+model.add(Dropout(0.1))
+model.add(Dense(16, activation = 'relu'))
+model.add(Dropout(0.1))
+model.add(Dense(1, activation='linear'))
 
-<span style="color:#aaa;font-style:italic"># monitor validation progress</span>
-early = EarlyStopping(monitor = <span style="color:#a50">&#34;val_loss&#34;</span>, mode = <span style="color:#a50">&#34;min&#34;</span>, patience = <span style="color:#099">7</span>)
+# monitor validation progress
+early = EarlyStopping(monitor = &quot;val_loss&quot;, mode = &quot;min&quot;, patience = 7)
 callbacks_list = [early]
     
-model.<span style="color:#0aa">compile</span>(loss = <span style="color:#a50">&#39;mean_squared_error&#39;</span>,
-              optimizer = <span style="color:#a50">&#39;adam&#39;</span>,
-              metrics = [<span style="color:#a50">&#39;mse&#39;</span>])
+model.compile(loss = 'mean_squared_error',
+              optimizer = 'adam',
+              metrics = ['mse'])
 
-<span style="color:#aaa;font-style:italic"># and train the model</span>
+# and train the model
 history = model.fit(data_mat_3d_final, target_arr, 
-    epochs=<span style="color:#099">50</span>, batch_size=<span style="color:#099">25</span>, verbose=<span style="color:#099">2</span>, 
-    validation_split = <span style="color:#099">0.20</span>,
+    epochs=50, batch_size=25, verbose=2, 
+    validation_split = 0.20,
     callbacks = callbacks_list)
 
-<span style="color:#aaa;font-style:italic"># plot history</span>
-plt.plot(history.history[<span style="color:#a50">&#39;loss&#39;</span>], label=<span style="color:#a50">&#39;train&#39;</span>)
-plt.plot(history.history[<span style="color:#a50">&#39;val_loss&#39;</span>], label=<span style="color:#a50">&#39;val&#39;</span>)
+# plot history
+plt.plot(history.history['loss'], label='train')
+plt.plot(history.history['val_loss'], label='val')
 plt.legend()
-plt.show()</code></pre></div>
+plt.show()
+</code></pre>
+
 <p><img src="/images/rnn_train_history.png" alt="" /></p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#aaa;font-style:italic"># get predictions</span>
+
+<pre><code class="language-python"># get predictions
 train_predictions = model.predict(data_mat_3d_final)
 test_predictions = model.predict(x_test_3d_final)
 
-<span style="color:#aaa;font-style:italic"># plot predictions vs actual</span>
-plt.plot(data[<span style="color:#a50">&#39;x&#39;</span>], 
-    data[<span style="color:#a50">&#39;z&#39;</span>], c = <span style="color:#a50">&#39;goldenrod&#39;</span>, label = <span style="color:#a50">&#39;data&#39;</span>)
-plt.plot(data.iloc[(length+<span style="color:#099">1</span>):-test_size][<span style="color:#a50">&#39;x&#39;</span>], 
-    train_predictions, c = <span style="color:#a50">&#39;navy&#39;</span>, label = <span style="color:#a50">&#39;train&#39;</span>)
-plt.plot(data.iloc[-test_size:][<span style="color:#a50">&#39;x&#39;</span>], 
-    test_predictions, c = <span style="color:#a50">&#39;firebrick&#39;</span>, label = <span style="color:#a50">&#39;test&#39;</span>)
-plt.legend(loc=<span style="color:#a50">&#39;best&#39;</span>)
-plt.show()</code></pre></div>
+# plot predictions vs actual
+plt.plot(data['x'], 
+    data['z'], c = 'goldenrod', label = 'data')
+plt.plot(data.iloc[(length+1):-test_size]['x'], 
+    train_predictions, c = 'navy', label = 'train')
+plt.plot(data.iloc[-test_size:]['x'], 
+    test_predictions, c = 'firebrick', label = 'test')
+plt.legend(loc='best')
+plt.show()
+</code></pre>
+
 <p><img src="/images/rnn_times_series_predictions.png" alt="" /></p>
 
 <p>Not bad!</p>
@@ -731,6 +748,9 @@ plt.show()</code></pre></div>
 
     
     
+    
+    <script src="/js/mathjax-config.js"></script>
+    
 
     
     
@@ -745,9 +765,15 @@ plt.show()</code></pre></div>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
         
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+        
       
 
       
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
       
     
 

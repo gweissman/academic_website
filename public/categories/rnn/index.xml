@@ -17,7 +17,9 @@
       <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</guid>
-      <description></description>
+      <description>Recurrent neural networks and their variants are helpful for extracting information from time series. Here&amp;rsquo;s an example using sample data to get up and running.
+I found the following other websites helpful in reading up on code examples:
+ https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/ https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py  # setup import numpy as np import pandas as pd import math import matplotlib.pyplot as plt from keras.models import Sequential from keras.layers import Dense, Dropout, SimpleRNN from keras.</description>
     </item>
     
   </channel>

@@ -28,7 +28,9 @@ brier_score &amp;lt;- function(obs, pred) { mean((obs - pred)^2) } The scaled Br
       <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</guid>
-      <description></description>
+      <description>Recurrent neural networks and their variants are helpful for extracting information from time series. Here&amp;rsquo;s an example using sample data to get up and running.
+I found the following other websites helpful in reading up on code examples:
+ https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/ https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py  # setup import numpy as np import pandas as pd import math import matplotlib.pyplot as plt from keras.models import Sequential from keras.layers import Dense, Dropout, SimpleRNN from keras.</description>
     </item>
     
     <item>
@@ -37,7 +39,8 @@ brier_score &amp;lt;- function(obs, pred) { mean((obs - pred)^2) } The scaled Br
       <pubDate>Mon, 17 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/making-choropleth-maps-by-zip-code/</guid>
-      <description></description>
+      <description>Every now and then it is useful to make a map. In times of political uncertainty, data can light a path forward. Your local elected officals may be interested in data, too, and how they impact policy (and re-election, of course).
+Let&amp;rsquo;s say you wanted to know if people are still enrolling the Healthcare.gov plans in your local State Senatorial district. It&amp;rsquo;s quite difficult to find data broken up at this level but zip codes can approximate such an approach.</description>
     </item>
     
     <item>

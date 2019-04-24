@@ -27,7 +27,8 @@
   
     
   
-  <meta name="description" content="">
+  <meta name="description" content="Every now and then it is useful to make a map. In times of political uncertainty, data can light a path forward. Your local elected officals may be interested in data, too, and how they impact policy (and re-election, of course).
+Let&rsquo;s say you wanted to know if people are still enrolling the Healthcare.gov plans in your local State Senatorial district. It&rsquo;s quite difficult to find data broken up at this level but zip codes can approximate such an approach.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/making-choropleth-maps-by-zip-code/">
@@ -50,7 +51,7 @@
   
   
   
-  <meta name="theme-color" content="#2962ff">
+  <meta name="theme-color" content="#795548">
   
 
   
@@ -71,10 +72,8 @@
     
       
       
-        
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-dark" disabled>
       
     
 
@@ -113,15 +112,19 @@
   
   <meta property="twitter:card" content="summary">
   
+  <meta property="twitter:site" content="@garyweissman">
+  <meta property="twitter:creator" content="@garyweissman">
+  
   <meta property="og:site_name" content="Gary Weissman, MD, MSHP">
   <meta property="og:url" content="/post/making-choropleth-maps-by-zip-code/">
   <meta property="og:title" content="Making choropleth maps by zip code | Gary Weissman, MD, MSHP">
-  <meta property="og:description" content=""><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="Every now and then it is useful to make a map. In times of political uncertainty, data can light a path forward. Your local elected officals may be interested in data, too, and how they impact policy (and re-election, of course).
+Let&rsquo;s say you wanted to know if people are still enrolling the Healthcare.gov plans in your local State Senatorial district. It&rsquo;s quite difficult to find data broken up at this level but zip codes can approximate such an approach."><meta property="og:image" content="/img/icon-192.png">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2017-07-17T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2017-07-17T00:00:00&#43;00:00">
+  <meta property="article:modified_time" content="2019-04-23T21:15:21-04:00">
   
 
   
@@ -357,7 +360,7 @@
 
 
 <meta content="2017-07-17 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-<meta content="2017-07-17 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+<meta content="2019-04-23 21:15:21 -0400 EDT" itemprop="dateModified">
 
 <div class="article-metadata">
 
@@ -369,8 +372,10 @@
     
     
       
+          Last updated on
+      
     
-    <time>Jul 17, 2017</time>
+    <time>Apr 23, 2019</time>
   </span>
   
 
@@ -379,7 +384,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    0 min read
+    2 min read
   </span>
   
 
@@ -444,41 +449,51 @@
 <p>Using publicly available data from the Centers for Medicare &amp; Medicaid Services, this file includes data by zip code on enrollment through <a href="https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html" target="_blank"><em>HealthCare.gov</em></a> The data description reads:</p>
 
 <p>&ldquo;2017 OEP ZIP Code-Level Public Use File: This ZIP code and APTC PUF includes total health plan selections, the count of consumers with APTC, and average APTC among consumers with APTC between November 1, 2016 and January 31, 2017. This PUF only includes data for the 39 states that used the HealthCare.gov platform in 2017.&rdquo;</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#aaa;font-style:italic"># setup</span>
-<span style="color:#00a">require</span>(zipcode)
-<span style="color:#00a">library</span>(readxl)
-<span style="color:#00a">require</span>(dplyr)
-<span style="color:#00a">require</span>(choroplethrZip)
-<span style="color:#00a">require</span>(magrittr)
+
+<pre><code class="language-r"># setup
+require(zipcode)
+library(readxl)
+require(dplyr)
+require(choroplethrZip)
+require(magrittr)
 
 
 data(zipcode)
-<span style="color:#aaa;font-style:italic"># download and extract this file: https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html</span>
+# download and extract this file: https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Marketplace-Products/Plan_Selection_ZIP.html
 
-dt &lt;- read_excel(<span style="color:#a50">&#39;2017_OEP_ZIP_Code-Level_Public_Use_File.xlsx&#39;</span>, sheet = <span style="color:#099">4</span>)
+dt &lt;- read_excel('2017_OEP_ZIP_Code-Level_Public_Use_File.xlsx', sheet = 4)
 
-<span style="color:#aaa;font-style:italic"># approximating the 26th district</span>
-zips_26thsenate &lt;- <span style="color:#0aa">c</span>(<span style="color:#a50">&#39;19029&#39;</span>, <span style="color:#a50">&#39;19081&#39;</span>, <span style="color:#a50">&#39;19082&#39;</span>, <span style="color:#a50">&#39;19078&#39;</span>, <span style="color:#a50">&#39;19036&#39;</span>, <span style="color:#a50">&#39;19033&#39;</span>, 
-                     <span style="color:#a50">&#39;19070&#39;</span>, <span style="color:#a50">&#39;19018&#39;</span>, <span style="color:#a50">&#39;19026&#39;</span>, <span style="color:#a50">&#39;19064&#39;</span>, <span style="color:#a50">&#39;19063&#39;</span>, <span style="color:#a50">&#39;19008&#39;</span>,
-                     <span style="color:#a50">&#39;19073&#39;</span>, <span style="color:#a50">&#39;19355&#39;</span>, <span style="color:#a50">&#39;19301&#39;</span>, <span style="color:#a50">&#39;19050&#39;</span>)
+# approximating the 26th district
+zips_26thsenate &lt;- c('19029', '19081', '19082', '19078', '19036', '19033', 
+                     '19070', '19018', '19026', '19064', '19063', '19008',
+                     '19073', '19355', '19301', '19050')
 
-dt %&lt;&gt;% select(ZipCode = <span style="color:#a50">&#39;ZIP Code&#39;</span>,
-               Enrollees = <span style="color:#a50">&#39;Total Number of Consumers Who Have Selected a Marketplace Plan&#39;</span>) %&gt;% 
-  mutate(Enrollees = <span style="color:#00a">as.integer</span>(Enrollees)) %&gt;%
+dt %&lt;&gt;% select(ZipCode = 'ZIP Code',
+               Enrollees = 'Total Number of Consumers Who Have Selected a Marketplace Plan') %&gt;% 
+  mutate(Enrollees = as.integer(Enrollees)) %&gt;%
   filter(ZipCode %in% zips_26thsenate) %&gt;%
-  left_join(zipcode, by = <span style="color:#0aa">c</span>(<span style="color:#a50">&#39;ZipCode&#39;</span> = <span style="color:#a50">&#39;zip&#39;</span>))</code></pre></div>
+  left_join(zipcode, by = c('ZipCode' = 'zip'))
+</code></pre>
+
 <p>Summarize the results by zip:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">dt %&gt;% 
+
+<pre><code class="language-r">dt %&gt;% 
   select(ZipCode, City = city, Enrollees) %&gt;%
     arrange(desc(Enrollees)) %&gt;% 
-    knitr::kable()</code></pre></div>
-<p>And plot the output:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">zipmap &lt;- dt %&gt;%
-  select(value = Enrollees, region = ZipCode) %&gt;%
-  zip_choropleth(zip_zoom = zips_26thsenate, reference_map = <span style="color:#00a">TRUE</span>,
-                 title = <span style="color:#a50">&#39;Healthcare.gov enrollees November 1, 2016 - January 21, 2017&#39;</span>)
+    knitr::kable()
+</code></pre>
 
-plot(zipmap)</code></pre></div>
+<p>And plot the output:</p>
+
+<pre><code class="language-r">
+zipmap &lt;- dt %&gt;%
+  select(value = Enrollees, region = ZipCode) %&gt;%
+  zip_choropleth(zip_zoom = zips_26thsenate, reference_map = TRUE,
+                 title = 'Healthcare.gov enrollees November 1, 2016 - January 21, 2017')
+
+plot(zipmap)
+</code></pre>
+
 <p><img src="/images/26th_district.png" alt="" /></p>
 
     </div>
@@ -660,6 +675,9 @@ plot(zipmap)</code></pre></div>
 
     
     
+    
+    <script src="/js/mathjax-config.js"></script>
+    
 
     
     
@@ -674,9 +692,15 @@ plot(zipmap)</code></pre></div>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
         
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+        
       
 
       
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
       
     
 

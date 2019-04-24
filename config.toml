@@ -25,10 +25,6 @@ disqusShortname = ""
 ## Advanced options below ##
 ############################
 
-# Code highlighting from Pygments
-PygmentsCodeFences = true
-PygmentsStyle = "autumn"
-
 # Name of Academic theme folder in `themes/`.
 theme = "hugo-academic"
 

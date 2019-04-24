@@ -29,7 +29,7 @@
   
     
   
-  <meta name="description" content="Professor of Artificial Intelligence">
+  <meta name="description" content="Academic web site for Gary Weissman, focused on clinical informatics, population health, and critical care.">
 
   
   <link rel="alternate" hreflang="en-us" href="/categories/python/">
@@ -52,7 +52,7 @@
   
   
   
-  <meta name="theme-color" content="#2962ff">
+  <meta name="theme-color" content="#795548">
   
 
   
@@ -73,10 +73,8 @@
     
       
       
-        
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-dark" disabled>
       
     
 
@@ -118,10 +116,13 @@
   
   <meta property="twitter:card" content="summary">
   
+  <meta property="twitter:site" content="@garyweissman">
+  <meta property="twitter:creator" content="@garyweissman">
+  
   <meta property="og:site_name" content="Gary Weissman, MD, MSHP">
   <meta property="og:url" content="/categories/python/">
   <meta property="og:title" content="python | Gary Weissman, MD, MSHP">
-  <meta property="og:description" content="Professor of Artificial Intelligence"><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="Academic web site for Gary Weissman, focused on clinical informatics, population health, and critical care."><meta property="og:image" content="/img/icon-192.png">
   <meta property="og:locale" content="en-us">
   
   <meta property="og:updated_time" content="2018-02-15T00:00:00&#43;00:00">
@@ -368,6 +369,10 @@
     <h2><a href="/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/">Building a recurrent neural network to predict time-series data with Keras in Python</a></h2>
     <div class="article-style">
       
+      Recurrent neural networks and their variants are helpful for extracting information from time series. Here&rsquo;s an example using sample data to get up and running.
+I found the following other websites helpful in reading up on code examples:
+ https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/ https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py  # setup import numpy as np import pandas as pd import math import matplotlib.pyplot as plt from keras.models import Sequential from keras.layers import Dense, Dropout, SimpleRNN from keras.
+      
     </div>
   </div>
   
@@ -434,6 +439,9 @@
 
     
     
+    
+    <script src="/js/mathjax-config.js"></script>
+    
 
     
     
@@ -448,9 +456,15 @@
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
         
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+        
       
 
       
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
       
     
 
