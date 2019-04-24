@@ -271,6 +271,129 @@ scaled_brier_score_1(df$rings &amp;gt; 3, preds_m2)&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
+      <title>Building a recurrent neural network to predict time-series data with Keras in Python</title>
+      <link>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</link>
+      <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</guid>
+      <description>&lt;p&gt;Recurrent neural networks and their variants are helpful for extracting information from time series. Here&amp;rsquo;s an example using sample data to get up and running.&lt;/p&gt;
+
+&lt;p&gt;I found the following other websites helpful in reading up on code examples:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/&#34; target=&#34;_blank&#34;&gt;https://machinelearningmastery.com/multi-step-time-series-forecasting-long-short-term-memory-networks-python/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py&#34; target=&#34;_blank&#34;&gt;https://github.com/rstudio/keras/blob/master/vignettes/examples/lstm_benchmark.py&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py&#34; target=&#34;_blank&#34;&gt;https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction/blob/master/lstm.py&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# setup&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;np&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;pandas&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;pd&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;math&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;plt&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;keras.models&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; Sequential
+&lt;span style=&#34;color:#00a&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;keras.layers&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; Dense, Dropout, SimpleRNN
+&lt;span style=&#34;color:#00a&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;keras.callbacks&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; EarlyStopping
+&lt;span style=&#34;color:#00a&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#0aa;text-decoration:underline&#34;&gt;sklearn.model_selection&lt;/span&gt; &lt;span style=&#34;color:#00a&#34;&gt;import&lt;/span&gt; train_test_split
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# make a sample multivariable time series - not autoregressive&lt;/span&gt;
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# generate a random walk&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#0a0&#34;&gt;random_walk&lt;/span&gt;(steps, scale = &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;):
+    w = np.zeros(steps)
+    &lt;span style=&#34;color:#00a&#34;&gt;for&lt;/span&gt; x &lt;span style=&#34;color:#00a&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#0aa&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,steps):
+        w[x] = w[x-&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;] + scale * np.random.normal()
+    &lt;span style=&#34;color:#00a&#34;&gt;return&lt;/span&gt;(w)
+        
+time_steps = &lt;span style=&#34;color:#099&#34;&gt;5000&lt;/span&gt;
+data = pd.DataFrame({&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;x&amp;#39;&lt;/span&gt; : &lt;span style=&#34;color:#0aa&#34;&gt;range&lt;/span&gt;(time_steps), 
+    &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;y&amp;#39;&lt;/span&gt; : np.arange(time_steps) ** (&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;/&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;) + random_walk(time_steps) })
+data = data.assign(z = np.log(data.x+&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;) + &lt;span style=&#34;color:#099&#34;&gt;0.3&lt;/span&gt; * data.y)
+data_mat = np.array(data)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Take a look at the data.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/images/rnn_data_explore.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;plt.subplot(&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;)
+plt.plot(data_mat[:,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;], data_mat[:,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;], c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;goldenrod&amp;#39;&lt;/span&gt;)
+plt.margins(&lt;span style=&#34;color:#099&#34;&gt;0.05&lt;/span&gt;)
+plt.subplot(&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;)
+plt.plot(data_mat[:,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;], data_mat[:,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;], c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;firebrick&amp;#39;&lt;/span&gt;)
+plt.margins(&lt;span style=&#34;color:#099&#34;&gt;0.05&lt;/span&gt;)
+plt.show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# split into samples (sliding time windows)&lt;/span&gt;
+samples = &lt;span style=&#34;color:#0aa&#34;&gt;list&lt;/span&gt;()
+target = &lt;span style=&#34;color:#0aa&#34;&gt;list&lt;/span&gt;()
+length = &lt;span style=&#34;color:#099&#34;&gt;50&lt;/span&gt;
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# step over the 5,000 in jumps of length&lt;/span&gt;
+&lt;span style=&#34;color:#00a&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#00a&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#0aa&#34;&gt;range&lt;/span&gt;(time_steps - length - &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;):
+  &lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# grab from i to i + length&lt;/span&gt;
+    sample = data_mat[i:i+length,:&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;]
+    outcome = data_mat[i+length+&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;]
+    target.append(outcome)
+    samples.append(sample)
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# split out a test set&lt;/span&gt;
+test_size = &lt;span style=&#34;color:#099&#34;&gt;1000&lt;/span&gt;
+x_test_mat = np.dstack(samples[-test_size:])
+x_test_3d_final = np.moveaxis(x_test_mat, [&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;], [&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;] )
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# The RNN needs data with the format of [samples, time steps, features].&lt;/span&gt;
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# Here, we have N samples, 50 time steps per sample, and 2 features&lt;/span&gt;
+data_mat_stacked = np.dstack(samples[:-test_size])
+data_mat_3d_final = np.moveaxis(data_mat_stacked, [&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;], [&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;] )
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# and fix up the target&lt;/span&gt;
+target_arr = np.array(target[:-test_size])
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# now build the RNN&lt;/span&gt;
+model = Sequential()
+model.add(SimpleRNN(&lt;span style=&#34;color:#099&#34;&gt;128&lt;/span&gt;, input_shape = (data_mat_3d_final.shape[&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;],
+    data_mat_3d_final.shape[&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;]), activation = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;relu&amp;#39;&lt;/span&gt;))
+model.add(Dropout(&lt;span style=&#34;color:#099&#34;&gt;0.1&lt;/span&gt;))
+model.add(Dense(&lt;span style=&#34;color:#099&#34;&gt;64&lt;/span&gt;, activation = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;relu&amp;#39;&lt;/span&gt;))
+model.add(Dropout(&lt;span style=&#34;color:#099&#34;&gt;0.1&lt;/span&gt;))
+model.add(Dense(&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;, activation = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;relu&amp;#39;&lt;/span&gt;))
+model.add(Dropout(&lt;span style=&#34;color:#099&#34;&gt;0.1&lt;/span&gt;))
+model.add(Dense(&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, activation=&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;linear&amp;#39;&lt;/span&gt;))
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# monitor validation progress&lt;/span&gt;
+early = EarlyStopping(monitor = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;val_loss&amp;#34;&lt;/span&gt;, mode = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#34;min&amp;#34;&lt;/span&gt;, patience = &lt;span style=&#34;color:#099&#34;&gt;7&lt;/span&gt;)
+callbacks_list = [early]
+    
+model.&lt;span style=&#34;color:#0aa&#34;&gt;compile&lt;/span&gt;(loss = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;mean_squared_error&amp;#39;&lt;/span&gt;,
+              optimizer = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;adam&amp;#39;&lt;/span&gt;,
+              metrics = [&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;mse&amp;#39;&lt;/span&gt;])
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# and train the model&lt;/span&gt;
+history = model.fit(data_mat_3d_final, target_arr, 
+    epochs=&lt;span style=&#34;color:#099&#34;&gt;50&lt;/span&gt;, batch_size=&lt;span style=&#34;color:#099&#34;&gt;25&lt;/span&gt;, verbose=&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;, 
+    validation_split = &lt;span style=&#34;color:#099&#34;&gt;0.20&lt;/span&gt;,
+    callbacks = callbacks_list)
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# plot history&lt;/span&gt;
+plt.plot(history.history[&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;loss&amp;#39;&lt;/span&gt;], label=&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;train&amp;#39;&lt;/span&gt;)
+plt.plot(history.history[&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;val_loss&amp;#39;&lt;/span&gt;], label=&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;val&amp;#39;&lt;/span&gt;)
+plt.legend()
+plt.show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/rnn_train_history.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# get predictions&lt;/span&gt;
+train_predictions = model.predict(data_mat_3d_final)
+test_predictions = model.predict(x_test_3d_final)
+
+&lt;span style=&#34;color:#aaa;font-style:italic&#34;&gt;# plot predictions vs actual&lt;/span&gt;
+plt.plot(data[&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;x&amp;#39;&lt;/span&gt;], 
+    data[&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;z&amp;#39;&lt;/span&gt;], c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;goldenrod&amp;#39;&lt;/span&gt;, label = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;data&amp;#39;&lt;/span&gt;)
+plt.plot(data.iloc[(length+&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;):-test_size][&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;x&amp;#39;&lt;/span&gt;], 
+    train_predictions, c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;navy&amp;#39;&lt;/span&gt;, label = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;train&amp;#39;&lt;/span&gt;)
+plt.plot(data.iloc[-test_size:][&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;x&amp;#39;&lt;/span&gt;], 
+    test_predictions, c = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;firebrick&amp;#39;&lt;/span&gt;, label = &lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;test&amp;#39;&lt;/span&gt;)
+plt.legend(loc=&lt;span style=&#34;color:#a50&#34;&gt;&amp;#39;best&amp;#39;&lt;/span&gt;)
+plt.show()&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/images/rnn_times_series_predictions.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Not bad!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Grey’s Anatomy Network of Sexual Relations</title>
       <link>/post/grey-s-anatomy-network-of-sexual-relations/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>

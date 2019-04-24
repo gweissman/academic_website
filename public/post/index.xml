@@ -6,7 +6,6 @@
     <description>Recent content in Posts on Gary Weissman, MD, MSHP</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
@@ -24,13 +23,21 @@ brier_score &amp;lt;- function(obs, pred) { mean((obs - pred)^2) } The scaled Br
     </item>
     
     <item>
+      <title>Building a recurrent neural network to predict time-series data with Keras in Python</title>
+      <link>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</link>
+      <pubDate>Thu, 15 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/building-a-recurrent-neural-network-to-predict-time-series-data-with-keras-in-python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Grey’s Anatomy Network of Sexual Relations</title>
       <link>/post/grey-s-anatomy-network-of-sexual-relations/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/grey-s-anatomy-network-of-sexual-relations/</guid>
-      <description>Here&amp;rsquo;s the blog post originally posted on babelgraph.org on March 25, 2011. The relevant hyperlinks and igraph code have been updated to reflect the current state of things. The edgelist, despite many more intervening seasons, and thus many more romances, has not been updated. Here is a nice walkthrough of ERGMs based on this post &amp;ndash; sorry for the broken link, Ben.
-This all began with an introductory presentation about social network analysis to a group of medical students.</description>
+      <description></description>
     </item>
     
   </channel>
