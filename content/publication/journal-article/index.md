@@ -3,12 +3,12 @@ abstract: Hierarchical condition categories (HCCs) are groups of diagnostic code
 authors:
 - admin
 date: "2019-04-01T00:00:00-04:00"
-doi: "https://doi.org/10.1016/j.chest.2018.12.013"
+doi: "10.1016/j.chest.2018.12.013"
 featured: false
 projects: []
-publication: '*CHEST*'
+publication: '*CHEST* 2019;155(4):868-873.'
 summary: Pulmonary diseases and various forms of critical illness play a significant role in this risk adjustment process both through their associated HCC codes and through interactions with other risk categories representing cardiac and psychiatric diseases.
-title: Hierarchical condition categories for pulmonary diseases
+title: "Hierarchical Condition Categories for Pulmonary Diseases: Population Health Management and Policy Opportunities."
 url_code: ""
 url_dataset: ""
 url_pdf: https://linkinghub.elsevier.com/retrieve/pii/S0012369219300042
