@@ -11,7 +11,7 @@ summary: Pulmonary diseases and various forms of critical illness play a signifi
 title: "Hierarchical Condition Categories for Pulmonary Diseases: Population Health Management and Policy Opportunities."
 url_code: ""
 url_dataset: ""
-url_pdf: https://linkinghub.elsevier.com/retrieve/pii/S0012369219300042
+url_pdf: "/papers/weissman_hccs_chest_2019.pdf"
 url_poster: ""
 url_project: ""
 url_slides: ""
