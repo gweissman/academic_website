@@ -419,7 +419,7 @@ BS_{scaled} = 1 - \frac{\frac{1}{N} \sum (y_i - \hat y_i)^2}{\frac{1}{N} \sum (y
 <h2>Definition 2</h2>
 <p>A second formulation of the scaled Brier Score is defined with a slightly different definition of <span class="math inline">\(BS_{max}\)</span>, which is in this case described in <a href="https://www.ncbi.nlm.nih.gov/pubmed/20010215" class="uri">https://www.ncbi.nlm.nih.gov/pubmed/20010215</a></p>
 <p><span class="math display">\[
-BS_{max} = \hat p \times (1 - \hat p).
+BS_{max} = \bar p \times (1 - \bar p).
 \]</span></p>
 <p>Let’s create an R function to calculate this measure.</p>
 <pre class="r"><code>scaled_brier_score_2 &lt;- function(obs, pred) {
@@ -430,7 +430,7 @@ BS_{max} = \hat p \times (1 - \hat p).
 <h2>Definition 3</h2>
 <p>A third formulation of the scaled Brier Score is defined with a slightly different definition of <span class="math inline">\(BS_{max}\)</span>, which is in this case described in <a href="https://www.ncbi.nlm.nih.gov/pubmed/22961910" class="uri">https://www.ncbi.nlm.nih.gov/pubmed/22961910</a></p>
 <p><span class="math display">\[
-BS_{max} = \hat p \times (1 - \hat p)^2 + (1 - \hat p) \times \hat p^2.
+BS_{max} = \bar p \times (1 - \bar p)^2 + (1 - \bar p) \times \bar p^2.
 \]</span></p>
 <p>Let’s create an R function to calculate this measure.</p>
 <pre class="r"><code>scaled_brier_score_3 &lt;- function(obs, pred) {

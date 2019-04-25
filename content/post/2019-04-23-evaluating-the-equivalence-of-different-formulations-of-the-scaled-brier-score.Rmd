@@ -63,7 +63,7 @@ scaled_brier_score_1 <- function(obs, pred) {
 A second formulation of the scaled Brier Score is defined with a slightly different definition of $BS_{max}$, which is in this case described in https://www.ncbi.nlm.nih.gov/pubmed/20010215
 
 $$
-BS_{max} = \hat p \times (1 - \hat p).
+BS_{max} = \bar p \times (1 - \bar p).
 $$
 
 Let's create an R function to calculate this measure.
@@ -80,7 +80,7 @@ scaled_brier_score_2 <- function(obs, pred) {
 A third formulation of the scaled Brier Score is defined with a slightly different definition of $BS_{max}$, which is in this case described in https://www.ncbi.nlm.nih.gov/pubmed/22961910
 
 $$
-BS_{max} = \hat p \times (1 - \hat p)^2 + (1 - \hat p) \times \hat p^2.
+BS_{max} = \bar p \times (1 - \bar p)^2 + (1 - \bar p) \times \bar p^2.
 $$
 
 Let's create an R function to calculate this measure.
