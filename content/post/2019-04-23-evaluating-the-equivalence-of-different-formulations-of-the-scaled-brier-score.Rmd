@@ -20,7 +20,7 @@ $$
 BS = \frac{1}{N} \sum (y_i - \hat y_i)^2,
 $$
 
-where $N$ is the number of observations, $y_i$ is the observed outcome, either 0 or 1, and $\hat y_i$ is the predicted probability for the $i$th observation. Let's create an R function calculate the Brier Score:
+where $N$ is the number of observations, $y_i$ is the observed outcome, either 0 or 1, and $\hat y_i$ is the predicted probability for the $i$th observation. Let's create an R function to calculate the Brier Score:
 
 
 ```{r}
