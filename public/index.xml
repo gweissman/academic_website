@@ -381,11 +381,28 @@ scaled_brier_score_1(df$rings &amp;gt; 3, preds_m2)&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>Hierarchical Condition Categories for Pulmonary Diseases: Population Health Management and Policy Opportunities.</title>
-      <link>/publication/journal-article/</link>
+      <title>Construct validity of six sentiment analysis methods in the text of encounter notes of patients with critical illness</title>
+      <link>/publication/sentiment_2019/</link>
       <pubDate>Mon, 01 Apr 2019 00:00:00 -0400</pubDate>
       
-      <guid>/publication/journal-article/</guid>
+      <guid>/publication/sentiment_2019/</guid>
+      <description>&lt;!---
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    Supplementary notes can be added here, including &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;code and math&lt;/a&gt;.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+--&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hierarchical Condition Categories for Pulmonary Diseases: Population Health Management and Policy Opportunities.</title>
+      <link>/publication/hccs_2019/</link>
+      <pubDate>Mon, 01 Apr 2019 00:00:00 -0400</pubDate>
+      
+      <guid>/publication/hccs_2019/</guid>
       <description>&lt;!---
 &lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
