@@ -80,6 +80,23 @@ get_boot_est_mod <- function(df, metric) {
 reps_model <- replicate(N, get_boot_est_mod(df, brier_score))
 ```
 
+## Optimism corrected bootstrapping to refit the model on each replicate 
+
+As pointed out by Ewout Steyerberg, these estimates should be optimism-corrected for potential overfitting. Let's look at the difference in estimates if we make predictions on the initial dataset rather than on the bootstrapped sample.
+
+```{r}
+get_boot_est_mod <- function(df, metric) {
+    idx <- sample(nrow(df), replace = TRUE)
+    m_b <- glm(I(rings > 10) ~ ., data = df[idx,], family = binomial)
+    preds_m_b <- predict(m_b, data = df, type = 'response')
+    metric(preds_m_b, df$rings > 10)
+}
+
+reps_model_opt <- replicate(N, get_boot_est_mod(df, brier_score))
+```
+
+
+
 ## Evaluate results
 
 Let's look at the distrbution of the Brier score estimates using both approaches.
@@ -88,7 +105,9 @@ Let's look at the distrbution of the Brier score estimates using both approaches
 res <- rbind(data.frame(brier_score = reps_pred,
                         approach = 'predictions'),
              data.frame(brier_score = reps_model,
-                        approach = 'refit_model'))
+                        approach = 'refit_model'),
+             data.frame(brier_score = reps_model_opt,
+                        approach = 'refit_opt'))
 
 # Plot distribution of bootstrapped Brier scores
 ggplot(res, aes(brier_score, color = approach)) + 
@@ -108,8 +127,10 @@ cat('CI using bootstrapped estimates from predictions only:',
     calc_ci_95(reps_pred),'\n')
 cat('CI using bootstrapped estimates from refitting the model:',
     calc_ci_95(reps_model),'\n')
+cat('CI using bootstrapped estimates from refitting the model with an optimism correction:',
+    calc_ci_95(reps_model_opt),'\n')
 ```
 
 ## Summary
 
-While not exactly the same, the two approaches yield very similar results. However, this outcome may vary depending on potential bias in the original dataset, and the sensitivity of the model to such bias.
+While not exactly the same, the first two approaches yield very similar results. However, this outcome may vary depending on potential bias in the original dataset, and the sensitivity of the model to such bias. The third approach demonstrates the likely high degree of overfitting in this model, and the need to properly correct for optimism when reporting predictive performance in the absence of a separate testing sample.
