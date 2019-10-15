@@ -21,8 +21,8 @@ interests:
 name: Gary Weissman
 organizations:
 - name: University of Pennsylvania
-  url: "http://pair.upenn.edu/people/trainees/gary-weissman"
-role: Instructor of Medicine
+  url: "http://pair.upenn.edu/people/core-faculty/gary-weissman"
+role: Assistant Professor of Medicine
 social:
 - icon: envelope
   icon_pack: fas
@@ -42,4 +42,4 @@ user_groups:
 - Visitors
 ---
 
-I am a pulmonary and critical care physician at the University of Pennsylvania Perelman School of Medicine, and core faculty at the Palliative and Advanced Illness Research (PAIR) Center. My research interests include clinical informatics, natural language processing, machine learning, population health, and pragmatic trials. I am also a Senior Fellow at the Leonard Davis Institute of Health Economics.
+I am a pulmonary and critical care physician at the University of Pennsylvania Perelman School of Medicine, and core faculty at the Palliative and Advanced Illness Research (PAIR) Center. My research interests include clinical informatics, natural language processing, machine learning, population health, and pragmatic trials. I am also a Senior Fellow at the Leonard Davis Institute of Health Economics and the Penn Institute of Bioinformatics.
